@@ -1,0 +1,46 @@
+# Git repository files
+.git
+.gitignore
+
+# Docker-related files
+# We ignore these to keep the build context clean.
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+
+# Node.js dependencies
+# Important: We want Docker to install its own modules, not copy yours from Fedora.
+node_modules
+
+# NestJS build artifacts
+dist
+
+# Testing & Coverage
+# We don't need test coverage reports or e2e test sources in the production image.
+coverage
+test
+
+# Local environment variables and secrets
+# Never add these to your image!
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE / Editor configuration
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS-specific files
+.DS_Store
+Thumbs.db

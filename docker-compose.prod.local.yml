@@ -1,0 +1,18 @@
+services:
+  api-production:
+    build:
+      context: .
+      target: production
+
+    ports:
+      # Risk: The ports: - "3000:3000" command binds the port to 0.0.0.0:3000 
+      # (all network interfaces) by default. This makes it accessible from LAN.
+      # Solution: Completely block external access by binding to localhost:
+      - "127.0.0.1:3000:3000"
+
+    environment:
+      - NODE_ENV=production
+
+    # Restart policy
+    # Automatically restart if the app crashes (simulating real server behavior)
+    restart: unless-stopped

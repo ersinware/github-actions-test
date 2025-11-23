@@ -1,0 +1,59 @@
+name: Deploy to Fargate
+on:
+  workflow_call:
+    inputs:
+      aws-region:
+        required: true
+        type: string
+      ecs-cluster:
+        required: true
+        type: string
+      ecs-service:
+        required: true
+        type: string
+      ecs-task-definition:
+        required: true
+        type: string
+      container-name:
+        required: true
+        type: string
+      aws-role-to-assume:
+        required: true
+        type: string
+      image-tag:
+        required: true
+        type: string
+      ecr-repository:
+        required: true
+        type: string
+    secrets:
+      aws-account-id:
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+# jobs:
+#   job-deploy-fargate:
+#     name: Deploy to Fargate
+#     runs-on: ubuntu-24.04
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@<COMMIT_SHA>
+
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@<COMMIT_SHA>
+#         with:
+#           role-to-assume: ${{ inputs.aws-role-to-assume }}
+#           aws-region: ${{ inputs.aws-region }}
+
+#       - name: Deploy to Fargate
+#         uses: aws-actions/amazon-ecs-deploy-task-definition@<COMMIT_SHA>
+#         with:
+#           task-definition: ${{ inputs.ecs-task-definition }}
+#           service: ${{ inputs.ecs-service }}
+#           cluster: ${{ inputs.ecs-cluster }}
+#           wait-for-service-stability: true
+#    container-image: ${{ secrets.aws-account-id }}.dkr.ecr.${{ inputs.aws-region }}.amazonaws.com/${{ inputs.ecr-repository }}:${{ inputs.image-tag }}
+#           container-name: ${{ inputs.container-name }}

@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    // --- 1. Basic Module Settings (Modern Node.js) ---
+    "module": "nodenext", // Generates ESM output (import/export)
+    "moduleResolution": "nodenext", // Strictly follows Node.js resolution rules
+    "target": "ES2022", // Ideal target for modern Node.js LTS versions
+    "baseUrl": "./", // Base directory to resolve non-relative module names
+    "outDir": "./dist", // Output directory for compiled files
+    "sourceMap": true, // Generates source maps for debugging
+    // --- 2. NestJS Framework Requirements (Do Not Change) ---
+    "emitDecoratorMetadata": true, // Required for Dependency Injection
+    "experimentalDecorators": true, // Required for Decorators support
+    "esModuleInterop": true, // Enables compatibility with CommonJS modules
+    "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export
+    // --- 3. Build & Output Optimizations ---
+    "removeComments": true, // Removes comments from the generated JS files (cleaner dist)
+    "incremental": true, // Increases build speed by using cache
+    "skipLibCheck": true, // Skips type checking of declaration files in node_modules
+    "resolvePackageJsonExports": true, // Respects 'exports' field in package.json (Modern Node behavior)
+    "isolatedModules": true, // Ensures each file can be safely transpiled via single-file transpilation
+    "declaration": false, // No need for .d.ts files for an API server (saves disk space)
+    // --- 4. FULL STRICT SAFETY RULES ---
+    // Overriding NestJS defaults to enforce maximum type safety
+    "strict": true, // Enables all strict type checking options
+    // Additional strictness checks:
+    "noUnusedLocals": true, // Report errors on unused local variables
+    "noUnusedParameters": true, // Report errors on unused parameters
+    "noImplicitReturns": true, // Report errors for code paths that do not return a value
+    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement
+    "noImplicitOverride": true, // Ensure 'override' modifier is used when overriding a method
+    "exactOptionalPropertyTypes": true, // Enforce strict rules for optional properties
+    "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file
+  },
+  "include": [
+    "src",
+    "test"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

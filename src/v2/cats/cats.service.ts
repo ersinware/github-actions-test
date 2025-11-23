@@ -15,6 +15,6 @@ export class CatsService {
   }
 
   findOne(name: string): Cat {
-    return this.cats.filter(cat => cat.name === name)[0];
+    return this.cats.filter((cat) => cat.name === name)[0];
   }
 }

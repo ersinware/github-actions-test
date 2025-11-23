@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsNotEmpty, IsString, Min, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
 import { Gender } from '../enums/gender.enum';
 
 export class CreateCatDto {
@@ -21,7 +28,7 @@ export class CreateCatDto {
     required: true,
     description: 'The age of the cat',
     example: 3,
-    minimum: 0
+    minimum: 0,
   })
   readonly age!: number;
 
@@ -31,7 +38,7 @@ export class CreateCatDto {
     required: true,
     description: 'The breed of the cat',
     example: 'Siamese',
-    minLength: 2
+    minLength: 2,
   })
   readonly breed!: string;
 
@@ -41,7 +48,7 @@ export class CreateCatDto {
     required: true,
     description: 'The gender of the cat',
     example: 'Male',
-    enum: Gender
+    enum: Gender,
   })
   readonly gender!: Gender;
 }

@@ -6,31 +6,34 @@ import * as fs from 'fs';
 import { createSwaggerDocument } from './helper-swagger';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule);
 
-    const document = createSwaggerDocument(app, {
-        title: 'API Documentation',
-        description: 'Detailed documentation for this API',
-        version: '1.0',
-        modules: [CatsModule],
-    });
-    fs.writeFileSync('./dist/swagger-v1.json', JSON.stringify(document, null, 2));
+  const document = createSwaggerDocument(app, {
+    title: 'API Documentation',
+    description: 'Detailed documentation for this API',
+    version: '1.0',
+    modules: [CatsModule],
+  });
+  fs.writeFileSync('./dist/swagger-v1.json', JSON.stringify(document, null, 2));
 
-    const documentV2 = createSwaggerDocument(app, {
-        title: 'API Documentation V2',
-        description: 'Detailed documentation for this API V2',
-        version: '2.0',
-        modules: [CatsModuleV2],
-    });
-    fs.writeFileSync('./dist/swagger-v2.json', JSON.stringify(documentV2, null, 2));
+  const documentV2 = createSwaggerDocument(app, {
+    title: 'API Documentation V2',
+    description: 'Detailed documentation for this API V2',
+    version: '2.0',
+    modules: [CatsModuleV2],
+  });
+  fs.writeFileSync(
+    './dist/swagger-v2.json',
+    JSON.stringify(documentV2, null, 2),
+  );
 }
 
 bootstrap()
-    .then(() => {
-        console.log('Swagger generated successfully');
-        process.exit(0);
-    })
-    .catch((error) => {
-        console.error('Error in while creating Swagger:', error);
-        process.exit(1);
-    });
+  .then(() => {
+    console.log('Swagger generated successfully');
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error('Error in while creating Swagger:', error);
+    process.exit(1);
+  });

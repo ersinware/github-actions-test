@@ -29,6 +29,15 @@ jobs:
       - name: Lint Code
         run: npm run lint
 
+      - name: Build App & Generate Swagger
+        run: npm run build:ci
+
+      - name: Upload Swagger Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-specs 
+          path: dist/swagger-*.json 
+
       - name: Check for Vulnerabilities
         run: npm audit --audit-level=high
 

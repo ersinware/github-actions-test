@@ -1,16 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CatsController } from './cats.controller';
+import { CatsControllerV2 } from './cats.controller';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interface/cat.interface';
+import { Gender } from './enums/gender.enum';
 
-describe('CatsController', () => {
-  let controller: CatsController;
+describe('CatsControllerV2', () => {
+  let controller: CatsControllerV2;
   let service: CatsService;
 
-  // Servisi taklit ediyoruz (Mocking)
-  // Gerçek servisi kullanmak yerine, sadece çağrıldığında ne döneceğini söylediğimiz
-  // sanal bir obje oluşturuyoruz. Unit testin doğası budur.
   const mockCatsService = {
     create: jest.fn(),
     findAll: jest.fn(),
@@ -18,7 +16,7 @@ describe('CatsController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [CatsController],
+      controllers: [CatsControllerV2],
       providers: [
         {
           provide: CatsService,
@@ -27,7 +25,7 @@ describe('CatsController', () => {
       ],
     }).compile();
 
-    controller = module.get<CatsController>(CatsController);
+    controller = module.get<CatsControllerV2>(CatsControllerV2);
     service = module.get<CatsService>(CatsService);
   });
 
@@ -41,10 +39,9 @@ describe('CatsController', () => {
         name: 'Pamuk',
         age: 1,
         breed: 'Van',
+        gender: Gender.Male,
       };
 
-      // ÇÖZÜM: Spy'ı doğrudan bir değişkene atıyoruz.
-      // Böylece 'service.create' referansını doğrudan kullanıp 'this' hatası almıyoruz.
       const createSpy = jest
         .spyOn(service, 'create')
         .mockImplementation(() => undefined);
@@ -52,18 +49,16 @@ describe('CatsController', () => {
       const result = controller.create(createCatDto);
 
       expect(result).toBe('This action adds a new cat');
-
-      // HATA BURADAYDI: expect(service.create)
-      // DÜZELTME: expect(createSpy)
       expect(createSpy).toHaveBeenCalledWith(createCatDto);
     });
   });
 
   describe('findAll', () => {
     it('should return an array of cats', () => {
-      const result: Cat[] = [{ name: 'Duman', age: 3, breed: 'British' }];
+      const result: Cat[] = [
+        { name: 'Duman', age: 3, breed: 'British', gender: Gender.Female },
+      ];
 
-      // Service.findAll çağrıldığında bizim 'result' dizisini dönmesini emrediyoruz
       jest.spyOn(service, 'findAll').mockImplementation(() => result);
 
       expect(controller.findAll()).toEqual(result);

@@ -7,4 +7,4 @@ import { CatsModuleV2 } from './v2/cats/cats.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

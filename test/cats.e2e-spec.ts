@@ -5,10 +5,9 @@ import {
   VersioningType,
 } from '@nestjs/common';
 import request from 'supertest';
-import { Server } from 'http'; // 1. Server tipini ekledik
+import { Server } from 'http';
 import { AppModule } from './../src/app.module';
 
-// 2. Response body için basit bir tip tanımladık (Validation hataları için)
 interface ValidationResponse {
   message: string[];
   error: string;
@@ -45,7 +44,6 @@ describe('CatsController (e2e)', () => {
   });
 
   it('/v1/cats (GET)', () => {
-    // 3. app.getHttpServer()'ı 'Server' olarak cast ettik
     return request(app.getHttpServer() as Server)
       .get('/v1/cats')
       .expect(200)
@@ -59,6 +57,7 @@ describe('CatsController (e2e)', () => {
         name: 'Gofret',
         age: 2,
         breed: 'Tekir',
+        gender: 'Male',
       })
       .expect(201)
       .expect('This action adds a new cat');
@@ -69,13 +68,11 @@ describe('CatsController (e2e)', () => {
       .post('/v1/cats')
       .send({
         name: 'Gofret',
-        // age eksik
         breed: 'Tekir',
         extraField: 'Bunu kabul etmemeli',
       })
       .expect(400)
       .expect((res) => {
-        // 4. res.body'yi tanımladığımız tipe cast ettik
         const body = res.body as ValidationResponse;
         const messages = body.message;
 
@@ -94,6 +91,7 @@ describe('CatsController (e2e)', () => {
           name: 'Gofret',
           age: 2,
           breed: 'Tekir',
+          gender: 'Male',
         },
       ]);
   });

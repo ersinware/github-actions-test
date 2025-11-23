@@ -1,7 +1,6 @@
-// src/main.ts
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -9,7 +8,8 @@ async function bootstrap(): Promise<void> {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // DTO'da tanımlı olmayan property'leri otomatik temizler (Security)
-      forbidNonWhitelisted: true, // Fazla property gelirse hata fırlatır
+      forbidNonWhitelisted: true, // Fazla property gelirse hata fırlatır,
+      transform: true, // <-- Bunu eklemek veri güvenliği ve tutarlılığı sağlar
     }),
   );
 
@@ -24,9 +24,9 @@ async function bootstrap(): Promise<void> {
   // app.setGlobalPrefix('api');
 
   await app.listen(3000);
-  console.log(`Server is running on: ${await app.getUrl()}`);
 }
 
-bootstrap().catch((err) => {
-  console.error('Error during application bootstrap:', err);
-});
+bootstrap()
+  .catch((err) => {
+    console.error('Error during application bootstrap:', err);
+  });

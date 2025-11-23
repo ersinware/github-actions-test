@@ -11,8 +11,10 @@ export class CatsService {
   }
 
   findAll(): Cat[] {
-    console.log('all cats:', this.cats);
-
     return this.cats;
+  }
+
+  findOne(name: string): Cat {
+    return this.cats.filter(cat => cat.name === name)[0];
   }
 }

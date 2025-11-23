@@ -35,7 +35,7 @@ permissions:
   contents: read
 
 # jobs:
-#   job-deploy-fargate:
+#   deploy-fargate:
 #     name: Deploy to Fargate
 #     runs-on: ubuntu-24.04
 #     steps:

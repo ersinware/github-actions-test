@@ -3,8 +3,8 @@ on:
   workflow_call:
 
 jobs:
-  job-security-code-quality-checks:
-    name: Run Lint, Audit, Tests & Security Checks
+  check-security-quality:
+    name: Security and Code Quality Checks
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code

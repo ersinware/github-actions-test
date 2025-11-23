@@ -1,4 +1,4 @@
-name: Deployment
+name: Main
 
 on:
   push:
@@ -13,17 +13,17 @@ permissions:
   contents: read
   
 jobs:
-  call-job-security-code-quality-checks:
+  main-check-security-quality:
     name: Security and Code Quality Checks
-    uses: ./.github/workflows/job-security-code-quality-checks.yml
+    uses: ./.github/workflows/check-security-quality.yml
 
-  # call-job-build-scan-push:
+  # main-build-scan-push:
   #   name: Build, Scan & Push to ECR
-  #   needs: call-job-security-code-quality-checks
+  #   needs: security-quality-checks
     
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
-  #   uses: ./.github/workflows/job-build-scan-push.yml
+  #   uses: ./.github/workflows/build-scan-push.yml
   #   with:
   #     aws-region: ${{ env.AWS_REGION }}
   #     ecr-repository: ${{ env.ECR_REPOSITORY }}
@@ -33,13 +33,13 @@ jobs:
   #     docker-user: ${{ secrets.DOKCER_USER }}
   #     docker-pat: ${{ secrets.DOCKER_PAT }}
 
-  # call-job-deploy-fargate:
+  # main-deploy-fargate:
   #   name: Deploy to Fargate
-  #   needs: call-job-build-scan-push
+  #   needs: build-scan-push
     
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
-  #   uses: ./.github/workflows/job-deploy-fargate.yml
+  #   uses: ./.github/workflows/deploy-fargate.yml
   #   with:
   #     aws-region: ${{ env.AWS_REGION }}
   #     ecs-cluster: ${{ env.ECS_CLUSTER }}

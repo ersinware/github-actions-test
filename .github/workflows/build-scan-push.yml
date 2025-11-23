@@ -1,4 +1,4 @@
-name: Build, Scan, Push
+name: Build, Scan & Push to ECR
 on:
   workflow_call:
     inputs:
@@ -28,7 +28,7 @@ permissions:
   contents: read
 
 jobs:
-  job-build-scan-push:
+  build-scan-push:
     name: Build, Scan & Push to ECR
     runs-on: ubuntu-24.04
     outputs:

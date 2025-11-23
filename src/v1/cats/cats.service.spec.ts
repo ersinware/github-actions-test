@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interface/cat.interface';
+import { Gender } from './enums/gender.enum';
 
 describe('CatsService', () => {
   let service: CatsService;
@@ -24,6 +25,7 @@ describe('CatsService', () => {
         name: 'Tekir',
         age: 2,
         breed: 'Sokak Kedisi',
+        gender: Gender.Female,
       };
 
       service.create(createCatDto);

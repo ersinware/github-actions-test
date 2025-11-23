@@ -5,7 +5,7 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interface/cat.interface';
 import { Gender } from './enums/gender.enum';
 
-describe('CatsControllerV2', () => {
+describe('CatsController', () => {
   let controller: CatsControllerV2;
   let service: CatsService;
 
@@ -49,6 +49,7 @@ describe('CatsControllerV2', () => {
       const result = controller.create(createCatDto);
 
       expect(result).toBe('This action adds a new cat');
+
       expect(createSpy).toHaveBeenCalledWith(createCatDto);
     });
   });
@@ -56,7 +57,7 @@ describe('CatsControllerV2', () => {
   describe('findAll', () => {
     it('should return an array of cats', () => {
       const result: Cat[] = [
-        { name: 'Duman', age: 3, breed: 'British', gender: Gender.Female },
+        { name: 'Duman', age: 3, breed: 'British', gender: Gender.Male },
       ];
 
       jest.spyOn(service, 'findAll').mockImplementation(() => result);

@@ -59,8 +59,10 @@ jobs:
 
       - name: Run Contract Tests 
         run: |
+          python3 -m venv /tmp/schemathesis_venv
+          source /tmp/schemathesis_venv/bin/activate
           pip install schemathesis
-          schemathesis run dist/swagger-v2.json --base-url=http://localhost:3000 --checks=all
+          schemathesis run dist/swagger-v2.json --url=http://localhost:3000 --checks=all
         shell: bash
 
       - name: Upload Swagger Artifacts

@@ -60,7 +60,7 @@ jobs:
       - name: Run Contract Tests 
         uses: schemathesis/action@v1
         with:
-          schema: 'dist/swagger-v2.json'
+          schema: '${{ github.workspace }}/dist/swagger-v2.json'
           base-url: 'http://localhost:3000'
           checks: 'all'
 

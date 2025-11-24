@@ -14,7 +14,7 @@ export class CatsService {
     },
     {
       "name": "Mittens",
-      "age": 5,
+      "age": 3,
       "breed": "Siamese",
       "gender": Gender.Male
     }

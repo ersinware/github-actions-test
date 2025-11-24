@@ -12,7 +12,7 @@ import { Cat } from './interface/cat.interface';
   version: '2',
 })
 export class CatsControllerV2 {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) { }
 
   @Post()
   @ApiOperation({

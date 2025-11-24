@@ -13,11 +13,7 @@ export class HealthController {
   @ApiResponse({
     status: 200,
     description: 'Service is healthy and running.',
-    schema: {
-      example: { status: 'ok' },
-    },
   })
-  check(): { status: string } {
-    return { status: 'ok' };
+  check(): void {
   }
 }

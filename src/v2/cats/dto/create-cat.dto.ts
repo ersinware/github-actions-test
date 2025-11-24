@@ -15,9 +15,10 @@ export class CreateCatDto {
   @MinLength(2)
   @ApiProperty({
     required: true,
+    type: 'string',
     description: 'The name of the cat',
-    example: 'Mittens',
     minLength: 2,
+    example: 'Mittens'
   })
   readonly name!: string;
 
@@ -26,19 +27,22 @@ export class CreateCatDto {
   @Min(0)
   @ApiProperty({
     required: true,
+    type: 'integer',
     description: 'The age of the cat',
-    example: 3,
     minimum: 0,
+    example: 3
   })
   readonly age!: number;
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(2)
   @ApiProperty({
     required: true,
+    type: 'string',
     description: 'The breed of the cat',
-    example: 'Siamese',
     minLength: 2,
+    example: 'Siamese'
   })
   readonly breed!: string;
 
@@ -46,9 +50,9 @@ export class CreateCatDto {
   @IsEnum(Gender)
   @ApiProperty({
     required: true,
-    description: 'The gender of the cat',
-    example: 'Male',
     enum: Gender,
+    description: 'The gender of the cat',
+    example: 'Male'
   })
   readonly gender!: Gender;
 }

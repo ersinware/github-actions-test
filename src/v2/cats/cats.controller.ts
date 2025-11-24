@@ -1,15 +1,22 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CatsService } from './cats.service';
-import { CreateCatDto } from './dto/create-cat.dto';
-import { Cat } from './interface/cat.interface';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query
+} from '@nestjs/common';
 import {
   ApiBody,
   ApiOperation,
   ApiParam,
-  ApiQuery,
   ApiResponse,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
+import { CatsService } from './cats.service';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { GetCatsQueryDto } from './dto/get-cats-query.dto';
+import { Cat } from './interface/cat.interface';
 
 @ApiTags('cats')
 @Controller({
@@ -17,11 +24,11 @@ import {
   version: '2',
 })
 export class CatsControllerV2 {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) { }
 
   @Post()
   @ApiOperation({
-    operationId: 'createCatV2',
+    operationId: 'createCat',
     summary: 'Creates a new cat',
     description:
       'Creates a new cat entry in the system with the provided details.',
@@ -31,7 +38,7 @@ export class CatsControllerV2 {
     type: CreateCatDto,
   })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'Successfully created a cat.',
   })
   @ApiResponse({
@@ -50,15 +57,9 @@ export class CatsControllerV2 {
 
   @Get()
   @ApiOperation({
-    operationId: 'findAllCatsV2',
+    operationId: 'findAllCats',
     summary: 'Retrieve all cats',
     description: 'Fetches and returns a list of all cats stored in the system.',
-  })
-  @ApiQuery({
-    name: 'limit',
-    description: 'Maximum number of cats to return',
-    required: false,
-    type: Number,
   })
   @ApiResponse({
     status: 200,
@@ -66,16 +67,20 @@ export class CatsControllerV2 {
     type: [CreateCatDto],
   })
   @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Invalid query parameters (e.g. non-numeric limit).',
+  })
+  @ApiResponse({
     status: 403,
     description: 'Forbidden.',
   })
-  findAll(): Cat[] {
-    return this.catsService.findAll();
+  findAll(@Query() query: GetCatsQueryDto): Cat[] {
+    return this.catsService.findAll(query.limit);
   }
 
   @Get(':name')
   @ApiOperation({
-    operationId: 'findOneCatV2',
+    operationId: 'findOneCat',
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
   })

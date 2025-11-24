@@ -1,0 +1,140 @@
+extends: spectral:oas
+
+rules:
+  # ---------------------------------------------------------------------------
+  # STANDARD OPENAPI RULES - Set to ERROR (Strict)
+  # ---------------------------------------------------------------------------
+  info-contact: error
+  info-description: error
+  info-license: error
+  operation-description: error
+  operation-operationId: error
+  operation-tags: error
+  path-keys-no-trailing-slash: error
+  typed-enum: error
+  oas3-api-servers: error
+  
+  # ---------------------------------------------------------------------------
+  # CUSTOM STRICT RULES - Full Strict Mode
+  # ---------------------------------------------------------------------------
+  
+  # RULE: Every operation must have a summary
+  operation-summary:
+    description: Operation must have a concise summary.
+    severity: error
+    given: $.paths[*][*]
+    then:
+      field: summary
+      function: truthy
+
+  # RULE: Every schema property must have a description
+  schema-property-description:
+    description: Every property in schemas must have a description.
+    severity: error
+    given: $..properties[*]
+    then:
+      field: description
+      function: truthy
+
+  # RULE: Every schema property must have a type
+  schema-property-type:
+    description: Every property in schemas must have a type defined.
+    severity: error
+    given: $..properties[*]
+    then:
+      field: type
+      function: truthy
+
+  # RULE: Request body must be defined for POST, PUT, PATCH operations
+  operation-request-body:
+    description: POST, PUT, and PATCH operations must have a requestBody.
+    severity: error
+    given: $.paths[*][post,put,patch]
+    then:
+      field: requestBody
+      function: truthy
+
+  # RULE: Response codes must have a description
+  response-description:
+    description: Every response must have a description.
+    severity: error
+    given: $.paths[*][*].responses[*]
+    then:
+      field: description
+      function: truthy
+
+  # RULE: Enum values must not be empty
+  enum-no-empty:
+    description: Enum values must not be empty.
+    severity: error
+    given: $..enum
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1
+
+  # RULE: Path parameters must be required
+  path-param-required:
+    description: Path parameters must be marked as required.
+    severity: error
+    given: $.paths[*][*].parameters[?(@.in == 'path')]
+    then:
+      field: required
+      function: truthy
+
+  # RULE: Path parameters must have descriptions
+  path-param-description:
+    description: Path parameters must have descriptions.
+    severity: error
+    given: $.paths[*][*].parameters[?(@.in == 'path')]
+    then:
+      field: description
+      function: truthy
+
+  # RULE: API version must follow semantic versioning
+  api-version-semver:
+    description: API version should follow semantic versioning (e.g., 1.0.0).
+    severity: error
+    given: $.info.version
+    then:
+      function: pattern
+      functionOptions:
+        match: ^\d+\.\d+\.\d+
+
+  # RULE: Contact email should be provided
+  contact-email-required:
+    description: Contact information should include an email address.
+    severity: error
+    given: $.info.contact
+    then:
+      field: email
+      function: truthy
+
+  # RULE: License should have a URL
+  license-url-required:
+    description: License should have a URL.
+    severity: error
+    given: $.info.license
+    then:
+      field: url
+      function: truthy
+
+  # RULE: Operation ID should be in camelCase
+  operation-id-format:
+    description: OperationId should be in camelCase format.
+    severity: error
+    given: $.paths[*][*].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][a-zA-Z0-9]*$
+
+  # RULE: Tag names should not be empty
+  tag-no-empty:
+    description: Tag names must not be empty strings.
+    severity: error
+    given: $.tags[*].name
+    then:
+      function: truthy

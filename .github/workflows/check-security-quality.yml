@@ -26,20 +26,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check for Vulnerabilities
+        run: npm audit --audit-level=high
+
       - name: Lint Code
         run: npm run lint
 
       - name: Build App & Generate Swagger
         run: npm run build:ci
 
-      - name: Upload Swagger Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: openapi-specs 
-          path: dist/swagger-*.json 
-
-      - name: Check for Vulnerabilities
-        run: npm audit --audit-level=high
+      - name: Lint Swagger Contract
+        run: npm run lint:contract
 
       - name: Run Unit Tests & Generate Coverage
         run: npm run test:cov
@@ -53,3 +50,9 @@ jobs:
 
       - name: Run end-to-end Tests
         run: npm run test:e2e
+
+      - name: Upload Swagger Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-specs 
+          path: dist/swagger-*.json 

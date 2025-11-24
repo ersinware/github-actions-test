@@ -11,7 +11,7 @@ async function bootstrap() {
   const document = createSwaggerDocument(app, {
     title: 'API Documentation',
     description: 'Detailed documentation for this API',
-    version: '1.0',
+    version: '1.0.0',
     modules: [CatsModule],
   });
   fs.writeFileSync('./dist/swagger-v1.json', JSON.stringify(document, null, 2));
@@ -19,7 +19,7 @@ async function bootstrap() {
   const documentV2 = createSwaggerDocument(app, {
     title: 'API Documentation V2',
     description: 'Detailed documentation for this API V2',
-    version: '2.0',
+    version: '2.0.0',
     modules: [CatsModuleV2],
   });
   fs.writeFileSync(

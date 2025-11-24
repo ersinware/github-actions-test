@@ -14,6 +14,5 @@ export class HealthController {
     status: 200,
     description: 'Service is healthy and running.',
   })
-  check(): void {
-  }
+  check(): void {}
 }

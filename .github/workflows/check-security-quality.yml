@@ -58,11 +58,10 @@ jobs:
         shell: bash
 
       - name: Run Contract Tests 
-        uses: schemathesis/action@v1
-        with:
-          schema: './dist/swagger-v2.json'
-          base-url: 'http://localhost:3000'
-          checks: 'all'
+        run: |
+          pip install schemathesis
+          schemathesis run dist/swagger-v2.json --base-url=http://localhost:3000 --checks=all
+        shell: bash
 
       - name: Upload Swagger Artifacts
         uses: actions/upload-artifact@v4

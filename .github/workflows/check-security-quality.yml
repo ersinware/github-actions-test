@@ -73,7 +73,6 @@ jobs:
           schema: './dist/swagger-v2.json'
           base-url: 'http://localhost:3000'
           checks: 'all'
-          args: '--experimental-openapi-3.1'
 
       - name: Stop API Server
         if: always()

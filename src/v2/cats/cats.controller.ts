@@ -1,17 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query
-} from '@nestjs/common';
-import {
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-  ApiTags
-} from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { FindOneCatDto } from './dto/find-one-cat.dto';
@@ -24,7 +12,7 @@ import { Cat } from './interface/cat.interface';
   version: '2',
 })
 export class CatsControllerV2 {
-  constructor(private readonly catsService: CatsService) { }
+  constructor(private readonly catsService: CatsService) {}
 
   @Post()
   @ApiOperation({
@@ -68,7 +56,8 @@ export class CatsControllerV2 {
   })
   @ApiResponse({
     status: 400,
-    description: 'Bad Request. Invalid query parameters (e.g. non-numeric limit).',
+    description:
+      'Bad Request. Invalid query parameters (e.g. non-numeric limit).',
   })
   @ApiResponse({
     status: 403,

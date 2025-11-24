@@ -22,7 +22,7 @@ export class CreateCatDto {
     description: 'The name of the cat',
     minLength: 2,
     maxLength: 20,
-    example: 'Mittens'
+    example: 'Mittens',
   })
   readonly name!: string;
 
@@ -36,7 +36,7 @@ export class CreateCatDto {
     description: 'The age of the cat',
     minimum: 0,
     maximum: 30,
-    example: 3
+    example: 3,
   })
   readonly age!: number;
 
@@ -50,7 +50,7 @@ export class CreateCatDto {
     description: 'The breed of the cat',
     minLength: 2,
     maxLength: 50,
-    example: 'Siamese'
+    example: 'Siamese',
   })
   readonly breed!: string;
 
@@ -60,7 +60,7 @@ export class CreateCatDto {
     required: true,
     enum: Gender,
     description: 'The gender of the cat',
-    example: 'Male'
+    example: 'Male',
   })
   readonly gender!: Gender;
 }

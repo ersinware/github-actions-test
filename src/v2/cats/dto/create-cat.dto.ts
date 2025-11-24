@@ -4,6 +4,8 @@ import {
   IsInt,
   IsNotEmpty,
   IsString,
+  Max,
+  MaxLength,
   Min,
   MinLength,
 } from 'class-validator';
@@ -13,11 +15,13 @@ export class CreateCatDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
+  @MaxLength(20)
   @ApiProperty({
     required: true,
     type: 'string',
     description: 'The name of the cat',
     minLength: 2,
+    maxLength: 20,
     example: 'Mittens'
   })
   readonly name!: string;
@@ -25,11 +29,13 @@ export class CreateCatDto {
   @IsNotEmpty()
   @IsInt()
   @Min(0)
+  @Max(30)
   @ApiProperty({
     required: true,
     type: 'integer',
     description: 'The age of the cat',
     minimum: 0,
+    maximum: 30,
     example: 3
   })
   readonly age!: number;
@@ -37,11 +43,13 @@ export class CreateCatDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
+  @MaxLength(50)
   @ApiProperty({
     required: true,
     type: 'string',
     description: 'The breed of the cat',
     minLength: 2,
+    maxLength: 50,
     example: 'Siamese'
   })
   readonly breed!: string;

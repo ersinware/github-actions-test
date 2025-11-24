@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
 import { CatsModule } from '../v1/cats/cats.module';
 import { CatsModuleV2 } from '../v2/cats/cats.module';
+import { HealthModule } from '../health/health.module';
 import * as fs from 'fs';
 import { createSwaggerDocument } from './helper-swagger';
 
@@ -12,7 +13,7 @@ async function bootstrap() {
     title: 'API Documentation',
     description: 'Detailed documentation for this API',
     version: '1.0.0',
-    modules: [CatsModule],
+    modules: [HealthModule, CatsModule],
   });
   fs.writeFileSync('./dist/swagger-v1.json', JSON.stringify(document, null, 2));
 
@@ -20,7 +21,7 @@ async function bootstrap() {
     title: 'API Documentation V2',
     description: 'Detailed documentation for this API V2',
     version: '2.0.0',
-    modules: [CatsModuleV2],
+    modules: [HealthModule, CatsModuleV2],
   });
   fs.writeFileSync(
     './dist/swagger-v2.json',

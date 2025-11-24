@@ -23,6 +23,7 @@ export function createSwaggerDocument(
       'support@example.com',
     )
     .setLicense('MIT', 'https://opensource.org/licenses/MIT')
+    .addTag('health', 'Health check endpoints')
     .addTag('cats', 'Operations related to cats')
     .build();
 

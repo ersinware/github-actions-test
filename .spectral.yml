@@ -63,6 +63,15 @@ rules:
       field: description
       function: truthy
 
+  # RULE: Every operation must have at least one response defined
+  operation-response-required:
+    description: Every operation must have at least one response defined.
+    severity: error
+    given: $.paths[*][*]
+    then:
+      field: responses
+      function: truthy
+
   # RULE: Enum values must not be empty
   enum-no-empty:
     description: Enum values must not be empty.

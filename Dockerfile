@@ -50,6 +50,6 @@ ENV NODE_ENV="production"
 # Healthcheck: Verifies the app is responsive
 # Update the URL if you use a global prefix (e.g., http://localhost:3000/api)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget -q --tries=1 --spider http://localhost:3000/v1 || exit 1
+  CMD wget -q --tries=1 --spider http://localhost:3000/healthcheck || exit 1
 # Start the application
 CMD ["node", "dist/main.js"]

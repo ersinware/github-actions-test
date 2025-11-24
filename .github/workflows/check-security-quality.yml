@@ -51,20 +51,10 @@ jobs:
       - name: Run end-to-end Tests
         run: npm run test:e2e
 
-      - name: Start API Server
+      - name: Start API Server 
         run: |
-          npm run start > /tmp/server.log 2>&1 &
-          echo $! > /tmp/server.pid
-          sleep 15
-        shell: bash
-
-      - name: Wait for Server
-        run: |
-          timeout 120 bash -c 'until curl -s http://localhost:3000/v1/cats > /dev/null 2>&1; do sleep 1; done' || {
-            echo "Server failed to start"
-            cat /tmp/server.log
-            exit 1
-          }
+          npm run start &
+          timeout 120 bash -c 'until curl -s http://localhost:3000/healthcheck > /dev/null 2>&1; do sleep 1; done'
         shell: bash
 
       - name: Run Contract Tests 
@@ -73,14 +63,6 @@ jobs:
           schema: './dist/swagger-v2.json'
           base-url: 'http://localhost:3000'
           checks: 'all'
-
-      - name: Stop API Server
-        if: always()
-        run: |
-          if [ -f /tmp/server.pid ]; then
-            kill $(cat /tmp/server.pid) 2>/dev/null || true
-          fi
-        shell: bash
 
       - name: Upload Swagger Artifacts
         uses: actions/upload-artifact@v4

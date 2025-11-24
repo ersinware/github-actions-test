@@ -5,9 +5,15 @@ import { CatsModuleV2 } from '../v2/cats/cats.module';
 import { HealthModule } from '../health/health.module';
 import * as fs from 'fs';
 import { createSwaggerDocument } from './helper-swagger';
+import { VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  });
 
   const document = createSwaggerDocument(app, {
     title: 'API Documentation',

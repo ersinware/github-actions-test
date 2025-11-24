@@ -9,12 +9,12 @@ import {
 import {
   ApiBody,
   ApiOperation,
-  ApiParam,
   ApiResponse,
   ApiTags
 } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { FindOneCatDto } from './dto/find-one-cat.dto';
 import { GetCatsQueryDto } from './dto/get-cats-query.dto';
 import { Cat } from './interface/cat.interface';
 
@@ -81,16 +81,14 @@ export class CatsController {
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
   })
-  @ApiParam({
-    required: true,
-    name: 'name',
-    description: 'The name of the cat to retrieve',
-    example: 'Garfield',
-  })
   @ApiResponse({
     status: 200,
     description: 'Successfully retrieved cat.',
     type: CreateCatDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'name must be longer than or equal to 2 characters',
   })
   @ApiResponse({
     status: 403,
@@ -100,7 +98,7 @@ export class CatsController {
     status: 404,
     description: 'Cat not found.',
   })
-  findOne(@Param('name') name: string): CreateCatDto {
-    return this.catsService.findOne(name);
+  findOne(@Param() params: FindOneCatDto): CreateCatDto {
+    return this.catsService.findOne(params.name);
   }
 }

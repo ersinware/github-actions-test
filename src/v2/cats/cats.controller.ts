@@ -9,12 +9,12 @@ import {
 import {
   ApiBody,
   ApiOperation,
-  ApiParam,
   ApiResponse,
   ApiTags
 } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { FindOneCatDto } from './dto/find-one-cat.dto';
 import { GetCatsQueryDto } from './dto/get-cats-query.dto';
 import { Cat } from './interface/cat.interface';
 
@@ -28,7 +28,7 @@ export class CatsControllerV2 {
 
   @Post()
   @ApiOperation({
-    operationId: 'createCat',
+    operationId: 'createCatV2',
     summary: 'Creates a new cat',
     description:
       'Creates a new cat entry in the system with the provided details.',
@@ -57,7 +57,7 @@ export class CatsControllerV2 {
 
   @Get()
   @ApiOperation({
-    operationId: 'findAllCats',
+    operationId: 'findAllCatsV2',
     summary: 'Retrieve all cats',
     description: 'Fetches and returns a list of all cats stored in the system.',
   })
@@ -77,23 +77,20 @@ export class CatsControllerV2 {
   findAll(@Query() query: GetCatsQueryDto): Cat[] {
     return this.catsService.findAll(query.limit);
   }
-
   @Get(':name')
   @ApiOperation({
-    operationId: 'findOneCat',
+    operationId: 'findOneCatV2',
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
-  })
-  @ApiParam({
-    required: true,
-    name: 'name',
-    description: 'The name of the cat to retrieve',
-    example: 'Garfield',
   })
   @ApiResponse({
     status: 200,
     description: 'Successfully retrieved cat.',
     type: CreateCatDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'name must be longer than or equal to 2 characters',
   })
   @ApiResponse({
     status: 403,
@@ -103,7 +100,7 @@ export class CatsControllerV2 {
     status: 404,
     description: 'Cat not found.',
   })
-  findOne(@Param('name') name: string): CreateCatDto {
-    return this.catsService.findOne(name);
+  findOne(@Param() params: FindOneCatDto): CreateCatDto {
+    return this.catsService.findOne(params.name);
   }
 }

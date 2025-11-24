@@ -59,6 +59,7 @@ jobs:
 
       - name: Run Contract Tests 
         run: |
+          ls -la dist/swagger-v2.json || (echo "File not found!" && exit 1)
           python3 -m venv /tmp/schemathesis_venv
           source /tmp/schemathesis_venv/bin/activate
           pip install schemathesis

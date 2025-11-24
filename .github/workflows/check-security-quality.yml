@@ -63,7 +63,7 @@ jobs:
           schema: dist/swagger-v1.json
           base-url: 'http://localhost:3000'
           checks: 'all'
-          args: '--exclude-checks method_not_allowed,positive_data_acceptance'
+          args: '--exclude-checks unsupported_method,positive_data_acceptance'
 
       - name: Run Contract Tests V2
         uses: schemathesis/action@v2
@@ -71,7 +71,7 @@ jobs:
           schema: dist/swagger-v2.json
           base-url: 'http://localhost:3000'
           checks: 'all'
-          args: '--exclude-checks method_not_allowed,positive_data_acceptance'
+          args: '--exclude-checks unsupported_method,positive_data_acceptance'
 
       - name: Upload Swagger Artifacts
         uses: actions/upload-artifact@v4

@@ -1,10 +1,11 @@
-import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ACTIVE_VERSIONS } from 'src/common/configs/api-versions.config';
 
 @ApiTags('health')
 @Controller({
   path: 'healthcheck',
-  version: VERSION_NEUTRAL,
+  version: ACTIVE_VERSIONS,
 })
 export class HealthController {
   @Get()
@@ -17,5 +18,7 @@ export class HealthController {
     status: 200,
     description: 'Service is healthy and running.',
   })
-  check(): void {}
+  check(): { status: string; message: string } {
+    return { status: 'ok', message: 'Health check passed' };
+  }
 }

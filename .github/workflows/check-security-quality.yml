@@ -71,7 +71,7 @@ jobs:
 
       - name: Start server and wait
         run: |
-          node dist/main &
+          node dist/src/main &
           npx wait-on http://localhost:3000/v1/healthcheck -t 30000
 
       - name: Setup Python

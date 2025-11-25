@@ -1,54 +1,29 @@
-import * as fs from 'fs';
+import { INestApplication, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { VersioningType, INestApplication, Type } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as fs from 'fs';
+import { AppModule } from 'src/app.module';
+import { SHARED_MODULES, VERSION_MODULE_MAP } from 'src/common/configs/api-modules.config';
+import {
+  ACTIVE_VERSIONS,
+  TAG_DESCRIPTIONS,
+  VERSION_DETAILS,
+  VERSION_TAG_MAP,
+} from 'src/common/configs/api-versions.config';
 
-import { AppModule } from '../src/app.module';
-import { CatsModule } from '../src/v1/cats/cats.module';
-import { CatsModuleV2 } from '../src/v2/cats/cats.module';
-import { HealthModule } from '../src/health/health.module';
+function generateDocument(app: INestApplication, version: string) {
+  const details = VERSION_DETAILS[version] || {
+    title: `API V${version}`,
+    description: `API V${version} Docs`,
+  };
 
-interface SwaggerTag {
-  name: string;
-  description: string;
-}
+  const versionSpecificModules = VERSION_MODULE_MAP[version] || [];
+  const allModules = [...SHARED_MODULES, ...versionSpecificModules];
 
-interface SwaggerConfig {
-  version: string;
-  modules: Type<any>[];
-  filename: string;
-  title?: string;
-  tags?: SwaggerTag[];
-}
-
-const configs: SwaggerConfig[] = [
-  {
-    version: '1.0.0',
-    modules: [HealthModule, CatsModule],
-    filename: 'swagger-v1.json',
-    title: 'API Documentation V1',
-    tags: [
-      { name: 'health', description: 'System health check endpoints' },
-      { name: 'cats', description: 'Operations related to cats management' },
-    ],
-  },
-  {
-    version: '2.0.0',
-    modules: [HealthModule, CatsModuleV2],
-    filename: 'swagger-v2.json',
-    title: 'API Documentation V2',
-    tags: [
-      { name: 'health', description: 'System health check endpoints' },
-      { name: 'cats', description: 'Operations related to cats management' },
-    ],
-  },
-];
-
-function generateDocument(app: INestApplication, config: SwaggerConfig) {
   const builder = new DocumentBuilder()
-    .setTitle(config.title || 'API Documentation')
-    .setDescription(`Detailed documentation for API ${config.version}`)
-    .setVersion(config.version)
+    .setTitle(details.title)
+    .setDescription(details.description)
+    .setVersion(`${version}.0.0`)
     .addServer('http://localhost:3000', 'Development server')
     .setContact(
       'API Support',
@@ -57,14 +32,16 @@ function generateDocument(app: INestApplication, config: SwaggerConfig) {
     )
     .setLicense('MIT', 'https://opensource.org/licenses/MIT');
 
-  if (config.tags) {
-    config.tags.forEach((tag) => builder.addTag(tag.name, tag.description));
-  }
+  const tags = VERSION_TAG_MAP[version] || [];
+
+  tags.forEach((tagKey) => {
+    builder.addTag(tagKey, TAG_DESCRIPTIONS[tagKey] || '');
+  });
 
   const options = builder.build();
 
   return SwaggerModule.createDocument(app, options, {
-    include: config.modules,
+    include: allModules,
   });
 }
 
@@ -73,19 +50,25 @@ async function bootstrap() {
 
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: '1',
   });
 
-  for (const config of configs) {
-    const document = generateDocument(app, config);
-    const path = `./dist/${config.filename}`;
+  for (const version of ACTIVE_VERSIONS) {
+    if (!VERSION_MODULE_MAP[version]) {
+      console.warn(`Warning: Version ${version} is active but has no module mapping. Skipping.`);
+
+      continue;
+    }
+
+    const document = generateDocument(app, version);
+    const filename = `swagger-v${version}.json`;
+    const outputPath = `./dist/${filename}`;
 
     if (!fs.existsSync('./dist')) {
       fs.mkdirSync('./dist');
     }
 
-    fs.writeFileSync(path, JSON.stringify(document, null, 2));
-    console.log(`Generated: ${config.filename}`);
+    fs.writeFileSync(outputPath, JSON.stringify(document, null, 2));
+    console.log(`Generated: ${filename}`);
   }
 
   await app.close();
@@ -93,6 +76,6 @@ async function bootstrap() {
 }
 
 bootstrap().catch((err) => {
-  console.error('Error:', err);
+  console.error('Error generating Swagger:', err);
   process.exit(1);
 });

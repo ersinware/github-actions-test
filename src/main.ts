@@ -15,7 +15,6 @@ async function bootstrap(): Promise<void> {
 
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: '1',
     // prefix: 'v',
   });
 

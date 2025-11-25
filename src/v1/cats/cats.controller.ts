@@ -13,7 +13,6 @@ export class CatsController {
 
   @Post()
   @ApiOperation({
-    operationId: 'createCat',
     summary: 'Creates a new cat',
     description:
       'Creates a new cat entry in the system with the provided details.',
@@ -42,7 +41,6 @@ export class CatsController {
 
   @Get()
   @ApiOperation({
-    operationId: 'findAllCats',
     summary: 'Retrieve all cats',
     description: 'Fetches and returns a list of all cats stored in the system.',
   })
@@ -66,7 +64,6 @@ export class CatsController {
 
   @Get(':name')
   @ApiOperation({
-    operationId: 'findOneCat',
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
   })

@@ -42,9 +42,9 @@ function generateDocument(app: INestApplication, version: string) {
 
   const document = SwaggerModule.createDocument(app, options, {
     include: allModules,
-    operationIdFactory: (controllerKey: string, methodKey: string) => {
-      // HealthController_healthCheck_v1
-      return `${controllerKey}_${methodKey}_v${version}`;
+    operationIdFactory: (_, methodKey: string) => {
+      // healthCheck_v1
+      return `${methodKey}_v${version}`;
     },
   });
 

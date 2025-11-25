@@ -20,18 +20,19 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@dda4788290998366da86b6a4f497909644397bb2
         with:
           cache: 'npm'
+          node-version: '24'
 
       - name: Install script dependencies
         run: npm install openapi-to-postmanv2 ts-node @types/node --no-save --no-package-lock
 
       - name: Download swagger artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
           name: openapi-specs
           path: public-docs/
@@ -72,7 +73,7 @@ jobs:
           cp docs/redoc.html public-docs/redoc.html
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public-docs

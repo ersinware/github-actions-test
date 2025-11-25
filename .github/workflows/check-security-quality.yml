@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
 
       - name: Check for Shadow APIs
         run: |
@@ -18,9 +18,10 @@ jobs:
           fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@dda4788290998366da86b6a4f497909644397bb2
         with:
           cache: 'npm'
+          node-version: '24'
 
       - name: Install dependencies
         run: npm ci
@@ -37,12 +38,13 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@dda4788290998366da86b6a4f497909644397bb2
         with:
           cache: 'npm'
+          node-version: '24'
 
       - name: Install dependencies
         run: npm ci
@@ -52,7 +54,7 @@ jobs:
 
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: coverage-report
           path: coverage/
@@ -73,7 +75,7 @@ jobs:
           npx wait-on http://localhost:3000/v1/healthcheck -t 30000
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: '3.10'
 
@@ -94,7 +96,7 @@ jobs:
 
       - name: Upload swagger artifacts
         if: github.ref_name == 'main' || github.ref_name == 'development'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: openapi-specs
           path: dist/swagger-*-v*.json

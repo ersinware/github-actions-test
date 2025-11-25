@@ -72,10 +72,18 @@ jobs:
           node dist/main &
           npx wait-on http://localhost:3000/v1/healthcheck -t 30000
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Schemathesis
+        run: pip install schemathesis
+
       - name: Run dynamic contract tests
         run: |
-          npx schemathesis run dist/swagger-v1.json --url http://localhost:3000 --checks all --exclude-checks unsupported_method,positive_data_acceptance
-          npx schemathesis run dist/swagger-v2.json --url http://localhost:3000 --checks all --exclude-checks unsupported_method,positive_data_acceptance
+          schemathesis run dist/swagger-v1.json --url http://localhost:3000 --checks all --exclude-checks unsupported_method,positive_data_acceptance
+          schemathesis run dist/swagger-v2.json --url http://localhost:3000 --checks all --exclude-checks unsupported_method,positive_data_acceptance
 
       - name: Rename swagger specs
         if: github.ref_name == 'main' || github.ref_name == 'development'

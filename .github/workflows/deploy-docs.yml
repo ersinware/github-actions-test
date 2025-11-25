@@ -32,6 +32,7 @@ jobs:
       - name: Prepare Static Site
         run: |
           cp docs/index.html public-docs/index.html
+          cp docs/redoc.html public-docs/redoc.html
           
           echo "Deploying content:"
           ls -la public-docs/

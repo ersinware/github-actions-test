@@ -8,23 +8,23 @@ const collectionId = process.argv[3];
 const apiKey = process.env.POSTMAN_API_KEY;
 
 if (!openApiPath) {
-  console.error('Error: OpenAPI file path argument is missing.');
-  console.error('Usage: npx ts-node scripts/update-postman.ts <path-to-json> <collection-id>');
+    console.error('Error: OpenAPI file path argument is missing.');
+    console.error('Usage: npx ts-node scripts/update-postman.ts <path-to-json> <collection-id>');
 
-  process.exit(1);
+    process.exit(1);
 }
 
 if (!collectionId) {
-  console.error('Error: Collection ID argument is missing.');
-  console.error('Usage: npx ts-node scripts/update-postman.ts <path-to-json> <collection-id>');
+    console.error('Error: Collection ID argument is missing.');
+    console.error('Usage: npx ts-node scripts/update-postman.ts <path-to-json> <collection-id>');
 
-  process.exit(1);
+    process.exit(1);
 }
 
 if (!apiKey) {
-  console.error('Error: Environment variable POSTMAN_API_KEY is required.');
-  
-  process.exit(1);
+    console.error('Error: Environment variable POSTMAN_API_KEY is required.');
+
+    process.exit(1);
 }
 
 async function main() {
@@ -45,7 +45,7 @@ function convertOpenApiToPostman(data: string): Promise<any> {
         Converter.convert(
             { type: 'string', data },
             {},
-            (err: any, conversionResult: any) => {
+            (_err: any, conversionResult: any) => {
                 if (!conversionResult.result) {
                     reject(new Error(`Could not convert OpenAPI to Postman: ${conversionResult.reason}`));
                 } else {

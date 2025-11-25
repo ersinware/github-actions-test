@@ -141,7 +141,7 @@
   },
   "info": {
     "title": "API Documentation V2",
-    "description": "Detailed documentation for this API V2",
+    "description": "Detailed documentation for API 2.0.0",
     "version": "2.0.0",
     "contact": {
       "name": "API Support",
@@ -156,11 +156,11 @@
   "tags": [
     {
       "name": "health",
-      "description": "Health check endpoints"
+      "description": ""
     },
     {
       "name": "cats",
-      "description": "Operations related to cats"
+      "description": ""
     }
   ],
   "servers": [

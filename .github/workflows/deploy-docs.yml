@@ -1,78 +1,71 @@
-name: Deploy Documentation
+name: Deploy documentations
 
 on:
   workflow_call:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
-  deploy-docs:
-    name: Deploy Documentation
+  deploy:
+    name: Prepare & deploy documentations
     runs-on: ubuntu-24.04
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     steps:
-      - name: Checkout Code
+      - name: Check out code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
           cache: 'npm'
 
-      - name: Install Script Dependencies
-        run: npm install openapi-to-postmanv2 ts-node @types/node --no-save
+      - name: Install script dependencies
+        run: npm install openapi-to-postmanv2 ts-node @types/node --no-save --no-package-lock
 
-      - name: Download Swagger Artifacts
+      - name: Download swagger artifacts
         uses: actions/download-artifact@v4
         with:
-          name: openapi-specs-${{ github.run_id }}
+          name: openapi-specs
           path: public-docs/
 
-      - name: Update Postman Collections - Development
-        if: github.ref == 'refs/heads/development'
+      - name: Update Postman collections
         env:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
         run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          
+          if [ "$BRANCH_NAME" == "main" ]; then
+            echo "Updating MAIN collections..."
+            ID_V1="${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V1 }}"
+            ID_V2="${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V2 }}"
+          elif [ "$BRANCH_NAME" == "development" ]; then
+            echo "Updating DEVELOPMENT collections..."
+            ID_V1="${{ secrets.POSTMAN_COLLECTION_ID_DEV_V1 }}"
+            ID_V2="${{ secrets.POSTMAN_COLLECTION_ID_DEV_V2 }}"
+          else
+            echo "Branch $BRANCH_NAME is not configured for Postman collection updates. Exiting."
+            exit 1
+          fi
+
+          SAFE_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g')
+
           npx ts-node scripts/update-postman.ts \
-            public-docs/swagger-development-v1.json \
-            ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V1 }}
+            public-docs/swagger-${SAFE_BRANCH}-v1.json \
+            $ID_V1
             
           npx ts-node scripts/update-postman.ts \
-            public-docs/swagger-development-v2.json \
-            ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V2 }}
+            public-docs/swagger-${SAFE_BRANCH}-v2.json \
+            $ID_V2
 
-      - name: Update Postman Collections (Main)
-        if: github.ref == 'refs/heads/main'
-        env:
-          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-        run: |
-          npx ts-node scripts/update-postman.ts \
-            public-docs/swagger-main-v1.json \
-            ${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V1 }}
-            
-          npx ts-node scripts/update-postman.ts \
-            public-docs/swagger-main-v2.json \
-            ${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V2 }}
-
-      - name: Prepare Static Site
+      - name: Prepare Static Site Files
         run: |
           cp docs/index.html public-docs/index.html
           cp docs/swagger.html public-docs/swagger.html
           cp docs/redoc.html public-docs/redoc.html
 
-      - name: Deploy to GitHub Pages (Merge Mode)
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public-docs
           keep_files: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: ${{ github.event.head_commit.message }}
+          commit_message: "Docs: Update ${{ github.ref_name }} documentation"

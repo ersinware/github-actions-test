@@ -1,47 +1,56 @@
-name: Security and Code Quality Checks
+name: Check security & quality
 on:
   workflow_call:
 
 jobs:
-  check-security-quality:
-    name: Security and Code Quality Checks
+  verify-security-quality:
+    name: Verify Security and Code Quality
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+        uses: actions/checkout@v4
 
       - name: Check for Shadow APIs
         run: |
           if grep -rE --exclude-dir=node_modules --exclude-dir=dist "(@ApiExcludeEndpoint\(true\)|@Controller\('_dev'\))" .; then
-            echo "ERROR: 'Shadow API' patterns found that cannot go to production!"
-            echo "Please remove '@ApiExcludeEndpoint' or '_dev' controller usages."
+            echo "::error::Shadow API patterns found! Remove '@ApiExcludeEndpoint' or '_dev' controller usages."
             exit 1
           fi
 
-      - name: Set up Node.js
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Check for Vulnerabilities
+      - name: Check for vulnerabilities
         run: npm audit --audit-level=high
 
-      - name: Lint Code
+      - name: Lint code
         run: npm run lint
 
-      - name: Build App & Generate Swagger
-        run: npm run build:ci
+  build-test-validate:
+    name: Build, Test & Validate Contracts
+    needs: verify-security-quality
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
 
-      - name: Lint Swagger Contract
-        run: npm run lint:contract
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
 
-      - name: Run Unit Tests & Generate Coverage
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
         run: npm run test:cov
 
-      - name: Upload Coverage Report
+      - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -49,46 +58,36 @@ jobs:
           path: coverage/
           retention-days: 1
 
-      - name: Run end-to-end Tests
+      - name: Build app & generate swagger.json 
+        run: npm run build:ci
+
+      - name: Lint swagger contract
+        run: npm run lint:contract
+
+      - name: Run end-to-end tests
         run: npm run test:e2e
 
-      - name: Start API Server 
+      - name: Start server and wait
         run: |
           node dist/main &
-          timeout 120 bash -c 'until curl -s http://localhost:3000/healthcheck > /dev/null 2>&1; do sleep 1; done'
-        shell: bash
+          npx wait-on http://localhost:3000/healthcheck -t 120000
 
-      - name: Run Contract Tests 
-        uses: schemathesis/action@v2
-        with:
-          schema: dist/swagger-v1.json
-          base-url: 'http://localhost:3000'
-          checks: 'all'
-          args: '--exclude-checks unsupported_method,positive_data_acceptance'
+      - name: Run dynamic contract tests
+        run: |
+          npx schemathesis run dist/swagger-v1.json --url http://localhost:3000 --checks all --exclude-checks unsupported_method,positive_data_acceptance
+          npx schemathesis run dist/swagger-v2.json --url http://localhost:3000 --checks all --exclude-checks unsupported_method,positive_data_acceptance
 
-      - name: Run Contract Tests V2
-        uses: schemathesis/action@v2
-        with:
-          schema: dist/swagger-v2.json
-          base-url: 'http://localhost:3000'
-          checks: 'all'
-          args: '--exclude-checks unsupported_method,positive_data_acceptance'
-
-      - name: Rename Swagger Specs based on Branch
+      - name: Rename swagger specs
         if: github.ref_name == 'main' || github.ref_name == 'development'
-        shell: bash
         run: |
           SAFE_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
-                    
           cp dist/swagger-v1.json dist/swagger-${SAFE_BRANCH_NAME}-v1.json
           cp dist/swagger-v2.json dist/swagger-${SAFE_BRANCH_NAME}-v2.json
 
-      - name: Upload Swagger Artifacts
+      - name: Upload swagger artifacts
         if: github.ref_name == 'main' || github.ref_name == 'development'
         uses: actions/upload-artifact@v4
         with:
-          name: openapi-specs-${{ github.run_id }}
-          path: |
-            dist/swagger-*-v1.json
-            dist/swagger-*-v2.json
+          name: openapi-specs
+          path: dist/swagger-*-v*.json
           retention-days: 1

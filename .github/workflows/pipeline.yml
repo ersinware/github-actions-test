@@ -1,33 +1,45 @@
-name: Main
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - "**"
-  pull_request:
-    branches:
       - main
+      - development
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
-  
+  contents: read 
+
 jobs:
-  main-check-security-quality:
-    name: Security and Code Quality Checks
+  check-security-quality:
+    name: Check security & quality
     uses: ./.github/workflows/check-security-quality.yml
 
-  main-deploy-docs:
-    name: Deploy Documentation
-    needs: main-check-security-quality
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
-    uses: ./.github/workflows/deploy-docs.yml
-    secrets: inherit
+  deploy-docs:
+    name: Deploy documentations
+    needs: check-security-quality
+    
+    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'development')
 
-  # main-build-scan-push:
+    permissions:
+      contents: write 
+      
+    uses: ./.github/workflows/deploy-docs.yml
+    secrets:
+      POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+      POSTMAN_COLLECTION_ID_MAIN_V1: ${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V1 }}
+      POSTMAN_COLLECTION_ID_MAIN_V2: ${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V2 }}
+      POSTMAN_COLLECTION_ID_DEV_V1: ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V1 }}
+      POSTMAN_COLLECTION_ID_DEV_V2: ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V2 }}
+
+  # build-scan-push:
   #   name: Build, Scan & Push to ECR
-  #   needs: security-quality-checks
+  #   needs: check-security-quality
     
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
@@ -41,7 +53,7 @@ jobs:
   #     docker-user: ${{ secrets.DOKCER_USER }}
   #     docker-pat: ${{ secrets.DOCKER_PAT }}
 
-  # main-deploy-fargate:
+  # deploy-fargate:
   #   name: Deploy to Fargate
   #   needs: build-scan-push
     

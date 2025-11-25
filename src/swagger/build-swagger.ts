@@ -13,6 +13,7 @@ interface SwaggerConfig {
   modules: Type<any>[];
   filename: string;
   title?: string;
+  tags?: string[];
 }
 
 const configs: SwaggerConfig[] = [
@@ -21,22 +22,35 @@ const configs: SwaggerConfig[] = [
     modules: [HealthModule, CatsModule],
     filename: 'swagger-v1.json',
     title: 'API Documentation V1',
+    tags: ['health', 'cats'],
   },
   {
     version: '2.0.0',
     modules: [HealthModule, CatsModuleV2],
     filename: 'swagger-v2.json',
     title: 'API Documentation V2',
+    tags: ['health', 'cats'],
   },
 ];
 
 function generateDocument(app: INestApplication, config: SwaggerConfig) {
-  const options = new DocumentBuilder()
+  const builder = new DocumentBuilder()
     .setTitle(config.title || 'API Documentation')
     .setDescription(`Detailed documentation for API ${config.version}`)
     .setVersion(config.version)
     .addServer('http://localhost:3000', 'Development server')
-    .build();
+    .setContact(
+      'API Support',
+      'https://example.com/support',
+      'support@example.com',
+    )
+    .setLicense('MIT', 'https://opensource.org/licenses/MIT');
+
+  if (config.tags) {
+    config.tags.forEach((tag) => builder.addTag(tag));
+  }
+
+  const options = builder.build();
 
   return SwaggerModule.createDocument(app, options, {
     include: config.modules,

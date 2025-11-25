@@ -8,12 +8,17 @@ import { CatsModule } from '../v1/cats/cats.module';
 import { CatsModuleV2 } from '../v2/cats/cats.module';
 import { HealthModule } from '../health/health.module';
 
+interface SwaggerTag {
+  name: string;
+  description: string;
+}
+
 interface SwaggerConfig {
   version: string;
   modules: Type<any>[];
   filename: string;
   title?: string;
-  tags?: string[];
+  tags?: SwaggerTag[];
 }
 
 const configs: SwaggerConfig[] = [
@@ -22,14 +27,20 @@ const configs: SwaggerConfig[] = [
     modules: [HealthModule, CatsModule],
     filename: 'swagger-v1.json',
     title: 'API Documentation V1',
-    tags: ['health', 'cats'],
+    tags: [
+      { name: 'health', description: 'System health check endpoints' },
+      { name: 'cats', description: 'Operations related to cats management' },
+    ],
   },
   {
     version: '2.0.0',
     modules: [HealthModule, CatsModuleV2],
     filename: 'swagger-v2.json',
     title: 'API Documentation V2',
-    tags: ['health', 'cats'],
+    tags: [
+      { name: 'health', description: 'System health check endpoints' },
+      { name: 'cats', description: 'Operations related to cats management' },
+    ],
   },
 ];
 
@@ -47,7 +58,7 @@ function generateDocument(app: INestApplication, config: SwaggerConfig) {
     .setLicense('MIT', 'https://opensource.org/licenses/MIT');
 
   if (config.tags) {
-    config.tags.forEach((tag) => builder.addTag(tag));
+    config.tags.forEach((tag) => builder.addTag(tag.name, tag.description));
   }
 
   const options = builder.build();

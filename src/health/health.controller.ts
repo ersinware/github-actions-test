@@ -4,7 +4,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('health')
 @Controller({
   path: 'healthcheck',
-  version: VERSION_NEUTRAL
+  version: VERSION_NEUTRAL,
 })
 export class HealthController {
   @Get()

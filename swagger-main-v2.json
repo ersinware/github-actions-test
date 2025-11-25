@@ -122,10 +122,10 @@
         ]
       }
     },
-    "/v1/healthcheck": {
+    "/v2/healthcheck": {
       "get": {
         "description": "Returns the health status of the API service.",
-        "operationId": "healthCheck",
+        "operationId": "HealthController_healthCheck_v2",
         "parameters": [],
         "responses": {
           "200": {
@@ -141,7 +141,7 @@
   },
   "info": {
     "title": "API Documentation V2",
-    "description": "Detailed documentation for API 2.0.0",
+    "description": "New generation API endpoints",
     "version": "2.0.0",
     "contact": {
       "name": "API Support",

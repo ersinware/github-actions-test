@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/v1/cats": {
+    "/cats": {
       "post": {
         "description": "Creates a new cat entry in the system with the provided details.",
         "operationId": "createCat",
@@ -77,7 +77,7 @@
         ]
       }
     },
-    "/v1/cats/{name}": {
+    "/cats/{name}": {
       "get": {
         "description": "Retrieves details of a specific cat by its name.",
         "operationId": "findOneCat",
@@ -125,7 +125,7 @@
     "/v1/healthcheck": {
       "get": {
         "description": "Returns the health status of the API service.",
-        "operationId": "healthCheck",
+        "operationId": "HealthController_healthCheck_v1",
         "parameters": [],
         "responses": {
           "200": {
@@ -141,7 +141,7 @@
   },
   "info": {
     "title": "API Documentation V1",
-    "description": "Detailed documentation for API 1.0.0",
+    "description": "Legacy API endpoints",
     "version": "1.0.0",
     "contact": {
       "name": "API Support",

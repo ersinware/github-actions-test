@@ -26,6 +26,32 @@ jobs:
           name: openapi-specs-${{ github.run_id }}
           path: public-docs/
 
+      - name: Update Postman Collections - Development
+        if: github.ref == 'refs/heads/development'
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: |
+          npx ts-node scripts/update-postman.ts \
+            public-docs/swagger-development-v1.json \
+            ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V1 }}
+            
+          npx ts-node scripts/update-postman.ts \
+            public-docs/swagger-development-v2.json \
+            ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V2 }}
+
+      - name: Update Postman Collections (Main)
+        if: github.ref == 'refs/heads/main'
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: |
+          npx ts-node scripts/update-postman.ts \
+            public-docs/swagger-main-v1.json \
+            ${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V1 }}
+            
+          npx ts-node scripts/update-postman.ts \
+            public-docs/swagger-main-v2.json \
+            ${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V2 }}
+
       - name: Prepare Static Site
         run: |
           cp docs/index.html public-docs/index.html

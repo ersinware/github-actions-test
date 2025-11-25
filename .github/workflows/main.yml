@@ -23,6 +23,7 @@ jobs:
     needs: main-check-security-quality
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
     uses: ./.github/workflows/deploy-docs.yml
+    secrets: inherit
 
   # main-build-scan-push:
   #   name: Build, Scan & Push to ECR

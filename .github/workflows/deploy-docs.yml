@@ -2,6 +2,17 @@ name: Deploy documentations
 
 on:
   workflow_call:
+    secrets:
+      POSTMAN_API_KEY:
+        required: true
+      POSTMAN_COLLECTION_ID_MAIN_V1:
+        required: true
+      POSTMAN_COLLECTION_ID_MAIN_V2:
+        required: true
+      POSTMAN_COLLECTION_ID_DEV_V1:
+        required: true
+      POSTMAN_COLLECTION_ID_DEV_V2:
+        required: true
 
 jobs:
   deploy:

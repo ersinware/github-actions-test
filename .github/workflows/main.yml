@@ -17,6 +17,12 @@ jobs:
     name: Security and Code Quality Checks
     uses: ./.github/workflows/check-security-quality.yml
 
+  main-deploy-docs:
+    name: Deploy Documentation
+    needs: main-check-security-quality
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
+    uses: ./.github/workflows/deploy-docs.yml
+
   # main-build-scan-push:
   #   name: Build, Scan & Push to ECR
   #   needs: security-quality-checks

@@ -1,0 +1,46 @@
+name: Deploy Documentation
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Download Swagger Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-specs-${{ github.run_id }}
+          path: public-docs/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Prepare Static Site
+        run: |
+          cp docs/index.html public-docs/index.html
+          
+          echo "Deploying content:"
+          ls -la public-docs/
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public-docs'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

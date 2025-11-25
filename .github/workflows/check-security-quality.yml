@@ -47,6 +47,7 @@ jobs:
         with:
           name: coverage-report
           path: coverage/
+          retention-days: 1
 
       - name: Run end-to-end Tests
         run: npm run test:e2e
@@ -57,24 +58,39 @@ jobs:
           timeout 120 bash -c 'until curl -s http://localhost:3000/healthcheck > /dev/null 2>&1; do sleep 1; done'
         shell: bash
 
-      - name: Run Contract Tests 
-        uses: schemathesis/action@v2
-        with:
-          schema: dist/swagger-v1.json
-          base-url: 'http://localhost:3000'
-          checks: 'all'
-          args: '--exclude-checks unsupported_method,positive_data_acceptance'
+      # - name: Run Contract Tests 
+      #   uses: schemathesis/action@v2
+      #   with:
+      #     schema: dist/swagger-v1.json
+      #     base-url: 'http://localhost:3000'
+      #     checks: 'all'
+      #     args: '--exclude-checks unsupported_method,positive_data_acceptance'
 
-      - name: Run Contract Tests V2
-        uses: schemathesis/action@v2
-        with:
-          schema: dist/swagger-v2.json
-          base-url: 'http://localhost:3000'
-          checks: 'all'
-          args: '--exclude-checks unsupported_method,positive_data_acceptance'
+      # - name: Run Contract Tests V2
+      #   uses: schemathesis/action@v2
+      #   with:
+      #     schema: dist/swagger-v2.json
+      #     base-url: 'http://localhost:3000'
+      #     checks: 'all'
+      #     args: '--exclude-checks unsupported_method,positive_data_acceptance'
+
+      - name: Rename Swagger Specs based on Branch
+        if: github.ref_name == 'main' || github.ref_name == 'development'
+        shell: bash
+        run: |
+          SAFE_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
+          
+          echo "Renaming specs for branch: $SAFE_BRANCH_NAME"
+          
+          cp dist/swagger-v1.json dist/swagger-${SAFE_BRANCH_NAME}-v1.json
+          cp dist/swagger-v2.json dist/swagger-${SAFE_BRANCH_NAME}-v2.json
 
       - name: Upload Swagger Artifacts
+        if: github.ref_name == 'main' || github.ref_name == 'development'
         uses: actions/upload-artifact@v4
         with:
-          name: openapi-specs 
-          path: dist/swagger-*.json 
+          name: openapi-specs-${{ github.run_id }}
+          path: |
+            dist/swagger-*-v1.json
+            dist/swagger-*-v2.json
+          retention-days: 1

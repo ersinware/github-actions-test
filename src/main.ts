@@ -13,7 +13,7 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
-  app.enableVersioning({ type: VersioningType.URI });
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
   // app.setGlobalPrefix('api');
 

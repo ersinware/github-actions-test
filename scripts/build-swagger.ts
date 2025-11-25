@@ -67,7 +67,7 @@ function generateDocument(app: INestApplication, version: string) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: false });
 
-  app.enableVersioning({ type: VersioningType.URI });
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
   for (const version of ACTIVE_VERSIONS) {
     if (!VERSION_MODULE_MAP[version]) {

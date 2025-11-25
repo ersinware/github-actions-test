@@ -1,0 +1,217 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v2/cats": {
+      "post": {
+        "description": "Creates a new cat entry in the system with the provided details.",
+        "operationId": "createCatV2",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Details of the cat to be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCatDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created a cat."
+          },
+          "400": {
+            "description": "Bad Request. Invalid input data."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "summary": "Creates a new cat",
+        "tags": [
+          "cats"
+        ]
+      },
+      "get": {
+        "description": "Fetches and returns a list of all cats stored in the system.",
+        "operationId": "findAllCatsV2",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of cats to return",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "example": 5,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of cats.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreateCatDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Invalid query parameters (e.g. non-numeric limit)."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "summary": "Retrieve all cats",
+        "tags": [
+          "cats"
+        ]
+      }
+    },
+    "/v2/cats/{name}": {
+      "get": {
+        "description": "Retrieves details of a specific cat by its name.",
+        "operationId": "findOneCatV2",
+        "parameters": [
+          {
+            "name": "name",
+            "required": true,
+            "in": "path",
+            "description": "The name of the cat to retrieve",
+            "schema": {
+              "minLength": 2,
+              "maxLength": 20,
+              "example": "Garfield",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved cat.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCatDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "name must be longer than or equal to 2 characters"
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Cat not found."
+          }
+        },
+        "summary": "Get a specific cat",
+        "tags": [
+          "cats"
+        ]
+      }
+    },
+    "/v1/healthcheck": {
+      "get": {
+        "description": "Returns the health status of the API service.",
+        "operationId": "healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Service is healthy and running."
+          }
+        },
+        "summary": "Health check endpoint",
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API Documentation V2",
+    "description": "Detailed documentation for this API V2",
+    "version": "2.0.0",
+    "contact": {
+      "name": "API Support",
+      "url": "https://example.com/support",
+      "email": "support@example.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "tags": [
+    {
+      "name": "health",
+      "description": "Health check endpoints"
+    },
+    {
+      "name": "cats",
+      "description": "Operations related to cats"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CreateCatDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the cat",
+            "minLength": 2,
+            "maxLength": 20,
+            "example": "Mittens"
+          },
+          "age": {
+            "type": "integer",
+            "description": "The age of the cat",
+            "minimum": 0,
+            "maximum": 30,
+            "example": 3
+          },
+          "breed": {
+            "type": "string",
+            "description": "The breed of the cat",
+            "minLength": 2,
+            "maxLength": 50,
+            "example": "Siamese"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "Male",
+              "Female"
+            ],
+            "description": "The gender of the cat",
+            "example": "Male"
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "breed",
+          "gender"
+        ]
+      }
+    }
+  }
+}

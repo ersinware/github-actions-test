@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>API Documentation (Redoc)</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+    <style>
+      body { margin: 0; padding: 0; }
+      /* Versiyon Seçici Stili */
+      .version-selector {
+        position: fixed;
+        top: 10px;
+        right: 20px;
+        z-index: 100;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        background: white;
+        font-family: 'Montserrat', sans-serif;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <select class="version-selector" onchange="loadSpec(this.value)">
+      <option value="./swagger-main-v1.json">Main Branch - V1</option>
+      <option value="./swagger-main-v2.json">Main Branch - V2</option>
+      <option value="./swagger-development-v1.json">Development Branch - V1</option>
+      <option value="./swagger-development-v2.json">Development Branch - V2</option>
+    </select>
+
+    <div id="redoc-container"></div>
+
+    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+    <script>
+      function loadSpec(url) {
+        // Redoc'u başlat/güncelle
+        Redoc.init(url, {
+          scrollYOffset: 50,
+          hideDownloadButton: true
+        }, document.getElementById('redoc-container'));
+      }
+
+      // Sayfa ilk açıldığında varsayılan spec'i yükle
+      loadSpec('./swagger-main-v1.json');
+    </script>
+  </body>
+</html>

@@ -3,10 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { VersioningType, INestApplication, Type } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { AppModule } from '../app.module';
-import { CatsModule } from '../v1/cats/cats.module';
-import { CatsModuleV2 } from '../v2/cats/cats.module';
-import { HealthModule } from '../health/health.module';
+import { AppModule } from '../src/app.module';
+import { CatsModule } from '../src/v1/cats/cats.module';
+import { CatsModuleV2 } from '../src/v2/cats/cats.module';
+import { HealthModule } from '../src/health/health.module';
 
 interface SwaggerTag {
   name: string;

@@ -34,7 +34,7 @@
   "include": [
     "src",
     "test"
-  ],
+, "scripts/build-swagger.ts"  ],
   "exclude": [
     "node_modules",
     "dist"

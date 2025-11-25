@@ -156,11 +156,11 @@
   "tags": [
     {
       "name": "health",
-      "description": ""
+      "description": "System health check endpoints"
     },
     {
       "name": "cats",
-      "description": ""
+      "description": "Operations related to cats management"
     }
   ],
   "servers": [

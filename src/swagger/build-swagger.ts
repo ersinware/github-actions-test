@@ -54,7 +54,7 @@ async function bootstrap() {
   for (const config of configs) {
     const document = generateDocument(app, config);
     const path = `./dist/${config.filename}`;
-    
+
     if (!fs.existsSync('./dist')) {
       fs.mkdirSync('./dist');
     }

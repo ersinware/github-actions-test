@@ -130,15 +130,17 @@ rules:
       field: url
       function: truthy
 
-  # RULE: Operation ID should be in camelCase
+  # RULE: Operation ID should be alphanumeric and support underscores
   operation-id-format:
-    description: OperationId should be in camelCase format.
+    description: OperationId should follow standard naming conventions (alphanumeric with underscores allowed).
     severity: error
     given: $.paths[*][*].operationId
     then:
       function: pattern
       functionOptions:
-        match: ^[a-z][a-zA-Z0-9]*$
+        # Eski Regex (Sadece camelCase): ^[a-z][a-zA-Z0-9]*$
+        # Yeni Regex (Harfle başla, harf/sayı/altçizgi devam et):
+        match: ^[a-zA-Z][a-zA-Z0-9_]*$
 
   # RULE: Tag names should not be empty
   tag-no-empty:

@@ -10,7 +10,6 @@ import { ACTIVE_VERSIONS } from 'src/common/configs/api-versions.config';
 export class HealthController {
   @Get()
   @ApiOperation({
-    operationId: 'healthCheck',
     summary: 'Health check endpoint',
     description: 'Returns the health status of the API service.',
   })
@@ -18,7 +17,7 @@ export class HealthController {
     status: 200,
     description: 'Service is healthy and running.',
   })
-  check(): { status: string; message: string } {
+  healthCheck(): { status: string; message: string } {
     return { status: 'ok', message: 'Health check passed' };
   }
 }

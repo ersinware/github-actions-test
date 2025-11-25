@@ -40,9 +40,28 @@ function generateDocument(app: INestApplication, version: string) {
 
   const options = builder.build();
 
-  return SwaggerModule.createDocument(app, options, {
+  const document = SwaggerModule.createDocument(app, options, {
     include: allModules,
+    operationIdFactory: (controllerKey: string, methodKey: string) => {
+      // HealthController_healthCheck_v1
+      return `${controllerKey}_${methodKey}_v${version}`;
+    },
   });
+
+  // Purpose: Remove paths that belong to other versions (e.g., remove /v2/... paths from the v1 swagger file).
+  Object.keys(document.paths).forEach((path) => {
+    ACTIVE_VERSIONS.forEach((otherVersion) => {
+      // Check against versions other than the current one
+      if (otherVersion !== version) {
+        // If the path starts with the prefix of another version (e.g. /v2/)
+        if (path.startsWith(`/v${otherVersion}/`)) {
+          delete document.paths[path]; // Remove the path from the document
+        }
+      }
+    });
+  });
+
+  return document
 }
 
 async function bootstrap() {

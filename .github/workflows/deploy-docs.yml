@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -26,20 +26,18 @@ jobs:
           name: openapi-specs-${{ github.run_id }}
           path: public-docs/
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Prepare Static Site
         run: |
           cp docs/index.html public-docs/index.html
           cp docs/swagger.html public-docs/swagger.html
           cp docs/redoc.html public-docs/redoc.html
 
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages (Merge Mode)
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: 'public-docs'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public-docs
+          keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: ${{ github.event.head_commit.message }}

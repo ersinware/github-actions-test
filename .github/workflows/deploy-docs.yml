@@ -32,10 +32,8 @@ jobs:
       - name: Prepare Static Site
         run: |
           cp docs/index.html public-docs/index.html
+          cp docs/swagger.html public-docs/swagger.html
           cp docs/redoc.html public-docs/redoc.html
-          
-          echo "Deploying content:"
-          ls -la public-docs/
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3

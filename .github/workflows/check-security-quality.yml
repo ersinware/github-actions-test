@@ -79,9 +79,7 @@ jobs:
         shell: bash
         run: |
           SAFE_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
-          
-          echo "Renaming specs for branch: $SAFE_BRANCH_NAME"
-          
+                    
           cp dist/swagger-v1.json dist/swagger-${SAFE_BRANCH_NAME}-v1.json
           cp dist/swagger-v2.json dist/swagger-${SAFE_BRANCH_NAME}-v2.json
 

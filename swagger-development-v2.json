@@ -4,7 +4,7 @@
     "/v2/cats": {
       "post": {
         "description": "Creates a new cat entry in the system with the provided details.",
-        "operationId": "create_v2",
+        "operationId": "createV2",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -35,7 +35,7 @@
       },
       "get": {
         "description": "Fetches and returns a list of all cats stored in the system.",
-        "operationId": "findAll_v2",
+        "operationId": "findAllV2",
         "parameters": [
           {
             "name": "limit",
@@ -80,7 +80,7 @@
     "/v2/cats/{name}": {
       "get": {
         "description": "Retrieves details of a specific cat by its name.",
-        "operationId": "findOne_v2",
+        "operationId": "findOneV2",
         "parameters": [
           {
             "name": "name",
@@ -125,7 +125,7 @@
     "/v2/healthcheck": {
       "get": {
         "description": "Returns the health status of the API service.",
-        "operationId": "healthCheck_v2",
+        "operationId": "healthCheckV2",
         "parameters": [],
         "responses": {
           "200": {

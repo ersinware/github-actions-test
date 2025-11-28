@@ -1,42 +1,137 @@
 {
   "compilerOptions": {
-    // --- 1. Basic Module Settings (Modern Node.js) ---
-    "module": "nodenext", // Generates ESM output (import/export)
-    "moduleResolution": "nodenext", // Strictly follows Node.js resolution rules
-    "target": "ES2022", // Ideal target for modern Node.js LTS versions
-    "baseUrl": "./", // Base directory to resolve non-relative module names
-    "outDir": "./dist", // Output directory for compiled files
-    "sourceMap": true, // Generates source maps for debugging
-    // --- 2. NestJS Framework Requirements (Do Not Change) ---
-    "emitDecoratorMetadata": true, // Required for Dependency Injection
-    "experimentalDecorators": true, // Required for Decorators support
-    "esModuleInterop": true, // Enables compatibility with CommonJS modules
-    "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export
-    // --- 3. Build & Output Optimizations ---
-    "removeComments": true, // Removes comments from the generated JS files (cleaner dist)
-    "incremental": true, // Increases build speed by using cache
-    "skipLibCheck": true, // Skips type checking of declaration files in node_modules
-    "resolvePackageJsonExports": true, // Respects 'exports' field in package.json (Modern Node behavior)
-    "isolatedModules": true, // Ensures each file can be safely transpiled via single-file transpilation
-    "declaration": false, // No need for .d.ts files for an API server (saves disk space)
-    // --- 4. FULL STRICT SAFETY RULES ---
-    // Overriding NestJS defaults to enforce maximum type safety
-    "strict": true, // Enables all strict type checking options
-    // Additional strictness checks:
-    "noUnusedLocals": true, // Report errors on unused local variables
-    "noUnusedParameters": true, // Report errors on unused parameters
-    "noImplicitReturns": true, // Report errors for code paths that do not return a value
-    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement
-    "noImplicitOverride": true, // Ensure 'override' modifier is used when overriding a method
-    "exactOptionalPropertyTypes": true, // Enforce strict rules for optional properties
-    "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file
+    // Modern Module Settings (ESM / NodeNext)
+    // Specifies the module code generation. 'nodenext' generates ECMAScript Modules (ESM),
+    // which is the modern standard for Node.js, allowing top-level await and import/export syntax.
+    "module": "nodenext",
+
+    // Determines how TypeScript looks up imported modules. 'nodenext' strictly follows
+    // Node.js rules, including support for the "exports" field in package.json.
+    "moduleResolution": "nodenext",
+
+    // The version of JavaScript to output. ES2023 includes recent features like 
+    // array methods (toReversed, toSorted) and is fully supported by modern Node.js versions.
+    "target": "ES2023",
+    
+    // Forces TypeScript to consult the "exports" field in node_modules' package.json files.
+    // This is critical for modern libraries that expose different entry points for ESM vs CommonJS.
+    "resolvePackageJsonExports": true, 
+
+    // Ensures that each file can be safely transpiled without relying on other files.
+    // This is required for tools like 'ts-jest' (tests) and 'swc' (fast compilers) to work correctly.
+    "isolatedModules": true,
+
+    // Allows importing .json files (Useful for config/mock data)
+    "resolveJsonModule": true,
+
+    // Base Configuration
+    // The root directory used to resolve non-relative module names.
+    "baseUrl": "./",
+
+    // The directory where the compiled JavaScript files will be placed.
+    "outDir": "./dist",
+
+    // Generates .map files that link the compiled JS back to the original TS source.
+    // Essential for debugging breakpoints in your IDE.
+    "sourceMap": true,
+
+    // Removes all comments from the generated JavaScript files to reduce file size.
+    "removeComments": true,
+
+    // Saves information about the project graph from the last compilation.
+    // This significantly speeds up subsequent builds (re-builds).
+    "incremental": true,
+
+    // Skips type checking of declaration files (.d.ts) inside node_modules.
+    // Drastically improves build performance without affecting your own code's safety.
+    "skipLibCheck": true,
+    
+    // Disallows inconsistently-cased references to the same file.
+    // Prevents "File not found" errors when moving between Windows (case-insensitive) and Linux (case-sensitive).
+    "forceConsistentCasingInFileNames": true, 
+
+    // NestJS Framework Requirements
+    // Emits design-type metadata for decorators.
+    // CRITICAL: NestJS Dependency Injection will NOT work without this.
+    "emitDecoratorMetadata": true,
+
+    // Enables experimental support for ES7 decorators.
+    // CRITICAL: Required for standard NestJS decorators like @Controller, @Injectable.
+    "experimentalDecorators": true,
+
+    // Enables interoperability between CommonJS (require) and ESM (import) modules.
+    // Allows you to import CommonJS packages as if they were ESM (e.g., import fs from 'fs').
+    "esModuleInterop": true,
+
+    // Allows default imports from modules with no default export.
+    "allowSyntheticDefaultImports": true,
+
+    // Full Strict Safety Rules
+    // Enable all strict type-checking options. The "master switch" for type safety.
+    "strict": true,
+
+    // Raise error on expressions and declarations with an implied 'any' type.
+    // Forces you to define types, preventing "magic" variables.
+    "noImplicitAny": true,
+
+    // In strict null checking mode, 'null' and 'undefined' are not in the domain of every type.
+    // Prevents "Cannot read property of undefined" runtime errors.
+    "strictNullChecks": true,
+    
+    // Reports an error when a local variable is declared but never used.
+    // Keeps your code clean and free of dead logic.
+    "noUnusedLocals": true,
+
+    // Reports an error when a function parameter is unused.
+    // (Hint: Prefix unused params with an underscore, e.g., '_req', to bypass this).
+    "noUnusedParameters": true,
+
+    // Reports an error when not all code paths in a function return a value.
+    // Prevents functions from accidentally returning 'undefined'.
+    "noImplicitReturns": true,
+
+    // Reports an error for fallthrough cases in switch statements (missing 'break').
+    // Prevents logic bugs where code execution accidentally runs into the next case.
+    "noFallthroughCasesInSwitch": true,
+
+    // Ensures that the 'override' keyword is used when a method overrides a parent method.
+    // Makes OOP inheritance explicit and safer.
+    "noImplicitOverride": true,
+
+    // NestJS Specific Adjustments
+    // Ensures class properties are initialized in the constructor.
+    // NOTE: Since you set this to 'true', you must use the definite assignment assertion (!) in your DTOs (e.g., name!: string) since NestJS initializes them at runtime, not construction time.
+    "strictPropertyInitialization": true,
+
+    // If 'true', explicitly setting a property to 'undefined' is forbidden unless 'undefined' is in the type.
+    // We keep this 'false' because NestJS/Database operations often treat "missing key" and "undefined value" similarly.
+    "exactOptionalPropertyTypes": false,
+
+    // CRITICAL SAFETY: Adds 'undefined' to types when accessing array indices.
+    // Prevents runtime crashes from accessing empty arrays (e.g., users[0].name).
+    "noUncheckedIndexedAccess": true,
+
+    // SECURITY: Changes catch block variables from 'any' to 'unknown'.
+    // Forces you to verify the error type before using it (e.g., if (err instanceof Error)).
+    "useUnknownInCatchVariables": true,
+
+    // Code Hygiene
+    // Reports error for code that can never be executed (dead code).
+    "allowUnreachableCode": false,
+
+    // Reports an error for labels that are defined but never referenced, eliminating dead code and confusion.
+    "allowUnusedLabels": false,
+
+    // Path Aliases
+    // Configures path mapping to allow absolute imports.
+    // Allows you to write "import ... from 'src/users'" instead of "../../users".
+    "paths": {
+      "src/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src",
-    "test"
-, "scripts/build-swagger.ts", "config"  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  // Specifies which folders should be included in the compilation process.
+  "include": ["src", "test", "scripts"],
+  
+  // Specifies which folders should be ignored during compilation.
+  "exclude": ["node_modules", "dist"]
 }

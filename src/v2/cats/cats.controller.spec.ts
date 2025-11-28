@@ -45,9 +45,7 @@ describe('CatsControllerV2', () => {
       };
 
       // Fix: Spy on the method explicitly
-      const createSpy = jest
-        .spyOn(service, 'create')
-        .mockImplementation(() => undefined);
+      const createSpy = jest.spyOn(service, 'create').mockImplementation(() => undefined);
 
       const result = controller.create(createCatDto);
 
@@ -58,13 +56,9 @@ describe('CatsControllerV2', () => {
 
   describe('findAll', () => {
     it('should return an array of cats', () => {
-      const result: Cat[] = [
-        { name: 'Duman', age: 3, breed: 'British', gender: Gender.Male },
-      ];
+      const result: Cat[] = [{ name: 'Duman', age: 3, breed: 'British', gender: Gender.Male }];
 
-      const findAllSpy = jest
-        .spyOn(service, 'findAll')
-        .mockImplementation(() => result);
+      const findAllSpy = jest.spyOn(service, 'findAll').mockImplementation(() => result);
 
       expect(controller.findAll({})).toEqual(result);
       expect(findAllSpy).toHaveBeenCalled();
@@ -81,9 +75,7 @@ describe('CatsControllerV2', () => {
       };
       const params: FindOneCatDto = { name: 'Duman' };
 
-      const findOneSpy = jest
-        .spyOn(service, 'findOne')
-        .mockImplementation(() => result);
+      const findOneSpy = jest.spyOn(service, 'findOne').mockImplementation(() => result);
 
       expect(controller.findOne(params)).toEqual(result);
       expect(findOneSpy).toHaveBeenCalledWith(params.name);

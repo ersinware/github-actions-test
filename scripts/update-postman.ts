@@ -14,7 +14,7 @@ if (!openApiPath || !collectionId || !apiKey) {
 }
 
 async function bootstrap() {
-    const openApiData = fs.readFileSync(path.resolve(openApiPath), 'utf8');
+    const openApiData = fs.readFileSync(path.resolve(openApiPath!), 'utf8');
     const postmanCollection = await convertToPostman(openApiData);
 
     if (branchName) {

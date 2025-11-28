@@ -14,8 +14,7 @@ export class CatsController {
   @Post()
   @ApiOperation({
     summary: 'Creates a new cat',
-    description:
-      'Creates a new cat entry in the system with the provided details.',
+    description: 'Creates a new cat entry in the system with the provided details.',
   })
   @ApiBody({
     description: 'Details of the cat to be created',
@@ -51,8 +50,7 @@ export class CatsController {
   })
   @ApiResponse({
     status: 400,
-    description:
-      'Bad Request. Invalid query parameters (e.g. non-numeric limit).',
+    description: 'Bad Request. Invalid query parameters (e.g. non-numeric limit).',
   })
   @ApiResponse({
     status: 403,

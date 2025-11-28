@@ -1,9 +1,6 @@
 export const ACTIVE_VERSIONS = ['1', '2'];
 
-export const VERSION_DETAILS: Record<
-  string,
-  { title: string; description: string }
-> = {
+export const VERSION_DETAILS: Record<string, { title: string; description: string }> = {
   '1': { title: 'API Documentation V1', description: 'Legacy API endpoints' },
   '2': {
     title: 'API Documentation V2',

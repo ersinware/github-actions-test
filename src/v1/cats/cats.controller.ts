@@ -18,7 +18,7 @@ import { Cat } from './interface/cat.interface';
 @ApiTags('cats')
 @Controller('cats')
 export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) { }
 
   @Post()
   @ApiOperation({
@@ -42,7 +42,7 @@ export class CatsController {
     summary: 'Retrieve all cats',
     description: 'Fetches and returns a list of all cats stored in the system.',
   })
-  @ApiOkResponse({ description: 'Successfully retrieved list of cats.' })
+  @ApiOkResponse({ description: 'Successfully retrieved list of cats.', type: [CreateCatDto] })
   @ApiBadRequestResponse({ description: `Invalid query parameter (e.g. non-numeric 'limit').` })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   findAll(@Query() query: GetCatsQueryDto): Cat[] {
@@ -54,7 +54,7 @@ export class CatsController {
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
   })
-  @ApiOkResponse({ description: 'Successfully retrieved cat.' })
+  @ApiOkResponse({ description: 'Successfully retrieved cat.', type: CreateCatDto })
   @ApiBadRequestResponse({ description: `'name' must be longer than or equal to 2 characters.` })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiNotFoundResponse({ description: 'Cat not found.' })

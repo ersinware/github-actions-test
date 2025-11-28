@@ -1,5 +1,14 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { FindOneCatDto } from './dto/find-one-cat.dto';
@@ -12,7 +21,7 @@ import { Cat } from './interface/cat.interface';
   version: '2',
 })
 export class CatsControllerV2 {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) { }
 
   @Post()
   @ApiOperation({
@@ -23,21 +32,11 @@ export class CatsControllerV2 {
     description: 'Details of the cat to be created',
     type: CreateCatDto,
   })
-  @ApiResponse({
-    status: 201,
-    description: 'Successfully created a cat.',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Bad Request. Invalid input data.',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'Forbidden.',
-  })
+  @ApiCreatedResponse({ description: 'Successfully created a cat.' })
+  @ApiBadRequestResponse({ description: 'Invalid input data.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   create(@Body() dto: CreateCatDto): string {
     this.catsService.create(dto);
-
     return 'This action adds a new cat';
   }
 
@@ -46,44 +45,22 @@ export class CatsControllerV2 {
     summary: 'Retrieve all cats',
     description: 'Fetches and returns a list of all cats stored in the system.',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Successfully retrieved list of cats.',
-    type: [CreateCatDto],
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Bad Request. Invalid query parameters (e.g. non-numeric limit).',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'Forbidden.',
-  })
+  @ApiOkResponse({ description: 'Successfully retrieved list of cats.', type: [CreateCatDto] })
+  @ApiBadRequestResponse({ description: `Invalid query parameter (e.g. non-numeric 'limit').` })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   findAll(@Query() query: GetCatsQueryDto): Cat[] {
     return this.catsService.findAll(query.limit);
   }
+
   @Get(':name')
   @ApiOperation({
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Successfully retrieved cat.',
-    type: CreateCatDto,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'name must be longer than or equal to 2 characters',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'Forbidden.',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Cat not found.',
-  })
+  @ApiOkResponse({ description: 'Successfully retrieved cat.', type: CreateCatDto })
+  @ApiBadRequestResponse({ description: `'name' must be longer than or equal to 2 characters.` })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiNotFoundResponse({ description: 'Cat not found.' })
   findOne(@Param() params: FindOneCatDto): CreateCatDto {
     return this.catsService.findOne(params.name);
   }

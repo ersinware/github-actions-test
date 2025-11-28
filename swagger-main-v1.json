@@ -176,31 +176,31 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the cat",
             "minLength": 2,
             "maxLength": 20,
+            "description": "The name of the cat",
             "example": "Mittens"
           },
           "age": {
-            "type": "integer",
-            "description": "The age of the cat",
+            "type": "number",
             "minimum": 0,
             "maximum": 30,
+            "description": "The age of the cat",
             "example": 3
           },
           "breed": {
             "type": "string",
-            "description": "The breed of the cat",
             "minLength": 2,
             "maxLength": 50,
+            "description": "The breed of the cat",
             "example": "Siamese"
           },
           "gender": {
-            "type": "string",
             "enum": [
               "Male",
               "Female"
             ],
+            "type": "string",
             "description": "The gender of the cat",
             "example": "Male"
           }

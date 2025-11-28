@@ -52,7 +52,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved list of cats."
+            "description": "Successfully retrieved list of cats.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreateCatDto"
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid query parameter (e.g. non-numeric 'limit')."
@@ -87,7 +97,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved cat."
+            "description": "Successfully retrieved cat.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCatDto"
+                }
+              }
+            }
           },
           "400": {
             "description": "'name' must be longer than or equal to 2 characters."
@@ -179,13 +196,13 @@
             "maxLength": 50
           },
           "gender": {
-            "type": "string",
             "description": "The gender of the cat",
             "example": "Male",
             "enum": [
               "Male",
               "Female"
-            ]
+            ],
+            "type": "string"
           }
         },
         "required": [

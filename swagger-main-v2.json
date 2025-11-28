@@ -22,7 +22,7 @@
             "description": "Successfully created a cat."
           },
           "400": {
-            "description": "Bad Request. Invalid input data."
+            "description": "Invalid input data."
           },
           "403": {
             "description": "Forbidden."
@@ -46,7 +46,7 @@
               "minimum": 1,
               "maximum": 100,
               "example": 5,
-              "type": "integer"
+              "type": "number"
             }
           }
         ],
@@ -65,7 +65,7 @@
             }
           },
           "400": {
-            "description": "Bad Request. Invalid query parameters (e.g. non-numeric limit)."
+            "description": "Invalid query parameter (e.g. non-numeric 'limit')."
           },
           "403": {
             "description": "Forbidden."
@@ -107,7 +107,7 @@
             }
           },
           "400": {
-            "description": "name must be longer than or equal to 2 characters"
+            "description": "'name' must be longer than or equal to 2 characters."
           },
           "403": {
             "description": "Forbidden."
@@ -176,33 +176,33 @@
         "properties": {
           "name": {
             "type": "string",
-            "minLength": 2,
-            "maxLength": 20,
             "description": "The name of the cat",
-            "example": "Mittens"
+            "example": "Mittens",
+            "minLength": 2,
+            "maxLength": 20
           },
           "age": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 30,
+            "type": "number",
             "description": "The age of the cat",
-            "example": 3
+            "example": 3,
+            "minimum": 0,
+            "maximum": 30
           },
           "breed": {
             "type": "string",
-            "minLength": 2,
-            "maxLength": 50,
             "description": "The breed of the cat",
-            "example": "Siamese"
+            "example": "Siamese",
+            "minLength": 2,
+            "maxLength": 50
           },
           "gender": {
+            "description": "The gender of the cat",
+            "example": "Male",
             "enum": [
               "Male",
               "Female"
             ],
-            "type": "string",
-            "description": "The gender of the cat",
-            "example": "Male"
+            "type": "string"
           }
         },
         "required": [

@@ -14,7 +14,5 @@ export class HealthController {
     description: 'Returns the health status of the API service.',
   })
   @ApiOkResponse({ description: 'Service is healthy and running.' })
-  healthCheck() {
-    return { status: 'ok', message: 'Health check passed' };
-  }
+  healthCheck(): void {}
 }

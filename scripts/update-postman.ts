@@ -6,12 +6,12 @@ import Converter from 'openapi-to-postmanv2';
 const [, , openApiPath, collectionId, branchName] = process.argv;
 const apiKey = process.env.POSTMAN_API_KEY;
 
-if (!openApiPath || !collectionId || !apiKey) {
-    console.error('Missing arguments or API key.');
-    console.error('Usage: npx ts-node update-postman.ts <path-to-json> <collection-id> <branch-name>');
+// if (!openApiPath || !collectionId || !apiKey) {
+//     console.error('Missing arguments or API key.');
+//     console.error('Usage: npx ts-node update-postman.ts <path-to-json> <collection-id> <branch-name>');
 
-    process.exit(1);
-}
+//     process.exit(1);
+// }
 
 async function bootstrap() {
     const openApiData = fs.readFileSync(path.resolve(openApiPath), 'utf8');

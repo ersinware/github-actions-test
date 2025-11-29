@@ -1,3 +1,1 @@
-exec < /dev/tty
-
-dnpx lint-staged
+npx lint-staged

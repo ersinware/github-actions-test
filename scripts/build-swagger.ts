@@ -25,11 +25,7 @@ function generateDocument(app: INestApplication, version: string) {
     .setDescription(details.description)
     .setVersion(`${version}.0.0`)
     .addServer('http://localhost:3000', 'Development server')
-    .setContact(
-      'API Support',
-      'https://example.com/support',
-      'support@example.com',
-    )
+    .setContact('API Support', 'https://example.com/support', 'support@example.com')
     .setLicense('MIT', 'https://opensource.org/licenses/MIT');
 
   const tags = VERSION_TAG_MAP[version] || [];
@@ -61,7 +57,7 @@ function generateDocument(app: INestApplication, version: string) {
     });
   });
 
-  return document
+  return document;
 }
 
 async function bootstrap() {

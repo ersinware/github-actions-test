@@ -10,13 +10,13 @@
   },
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "lint:contract": "spectral lint dist/swagger-v1.json --ruleset .spectral.yml",
+    "lint": "eslint \"{src,apps,libs,test,scripts}/**/*.ts\"",
+    "lint:contract": "spectral lint dist/swagger-v2.json --ruleset .spectral.yml",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -82,15 +82,6 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "lint-staged": {
-      "**/*.ts": [
-        "prettier --write",
-        "eslint --fix"
-      ],
-      "**/*.{json,md,js}": [
-        "prettier --write"
-      ]
-    }
+    "testEnvironment": "node"
   }
 }

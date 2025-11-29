@@ -67,7 +67,7 @@ jobs:
             $ID_V2 \
             "$BRANCH_NAME"
 
-      - name: Prepare Static Site Files
+      - name: Prepare static site files
         run: |
           cp docs/index.html public-docs/index.html
           cp docs/swagger.html public-docs/swagger.html

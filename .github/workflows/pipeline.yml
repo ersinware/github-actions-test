@@ -16,13 +16,29 @@ permissions:
   contents: read 
 
 jobs:
-  check-security-quality:
-    name: Check security & quality
-    uses: ./.github/workflows/check-security-quality.yml
+  validate:
+    name: Validate security & quality
+    uses: ./.github/workflows/validate.yml
+
+  # build:
+  #   name: Build, scan & push to ECR
+  #   needs: validate
+    
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+  #   uses: ./.github/workflows/build.yml
+  #   with:
+  #     aws-region: ${{ env.AWS_REGION }}
+  #     ecr-repository: ${{ env.ECR_REPOSITORY }}
+  #     aws-role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+  #   secrets:
+  #     aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
+  #     docker-user: ${{ secrets.DOKCER_USER }}
+  #     docker-pat: ${{ secrets.DOCKER_PAT }}
 
   deploy-docs:
     name: Deploy documentations
-    needs: check-security-quality
+    needs: validate
     
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'development')
 
@@ -37,29 +53,13 @@ jobs:
       POSTMAN_COLLECTION_ID_DEV_V1: ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V1 }}
       POSTMAN_COLLECTION_ID_DEV_V2: ${{ secrets.POSTMAN_COLLECTION_ID_DEV_V2 }}
 
-  # build-scan-push:
-  #   name: Build, Scan & Push to ECR
-  #   needs: check-security-quality
-    
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-  #   uses: ./.github/workflows/build-scan-push.yml
-  #   with:
-  #     aws-region: ${{ env.AWS_REGION }}
-  #     ecr-repository: ${{ env.ECR_REPOSITORY }}
-  #     aws-role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
-  #   secrets:
-  #     aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
-  #     docker-user: ${{ secrets.DOKCER_USER }}
-  #     docker-pat: ${{ secrets.DOCKER_PAT }}
-
-  # deploy-fargate:
+  # deploy:
   #   name: Deploy to Fargate
-  #   needs: build-scan-push
+  #   needs: build
     
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
-  #   uses: ./.github/workflows/deploy-fargate.yml
+  #   uses: ./.github/workflows/deploy.yml
   #   with:
   #     aws-region: ${{ env.AWS_REGION }}
   #     ecs-cluster: ${{ env.ECS_CLUSTER }}

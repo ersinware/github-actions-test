@@ -21,4 +21,4 @@ services:
     restart: unless-stopped
 
     networks:
-      - nestjs-network
+      - api-network

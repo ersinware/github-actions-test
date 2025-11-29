@@ -5,8 +5,8 @@ services:
       context: .
 
     networks:
-      - nestjs-network
+      - api-network
 
 networks:
-  nestjs-network:
+  api-network:
     driver: bridge

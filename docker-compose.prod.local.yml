@@ -1,14 +1,17 @@
 services:
-  api-production:
+  # Override the same service 'api' instead of creating 'api-production'.
+  # This ensures consistency in container naming.
+  api:
     build:
-      context: .
       target: production
 
+    env_file:
+      - .env
+
     ports:
-      # Risk: The ports: - "3000:3000" command binds the port to 0.0.0.0:3000 
-      # (all network interfaces) by default. This makes it accessible from LAN.
-      # Solution: Completely block external access by binding to localhost:
-      - "127.0.0.1:3000:3000"
+      # [IMPROVEMENT] We made port 3001!
+      # Why? If you have 'npm run start:dev' or dev container (3000) open in the background, you don't have to close the other one to run this test.
+      - "127.0.0.1:3001:3000"
 
     environment:
       - NODE_ENV=production
@@ -16,3 +19,6 @@ services:
     # Restart policy
     # Automatically restart if the app crashes (simulating real server behavior)
     restart: unless-stopped
+
+    networks:
+      - nestjs-network

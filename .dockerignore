@@ -1,31 +1,64 @@
-# Git repository files
+# ------------------------------------------------------------------------------
+# 1. Source Control & Git
+# ------------------------------------------------------------------------------
 .git
 .gitignore
+.husky
 
-# Docker-related files
-# We ignore these to keep the build context clean.
+# ------------------------------------------------------------------------------
+# 2. Docker Files
+# ------------------------------------------------------------------------------
+# Keep the build context clean by ignoring Docker config files.
 .dockerignore
 Dockerfile
 docker-compose.yml
 docker-compose.*.yml
 
-# Node.js dependencies
-# Important: We want Docker to install its own modules, not copy yours from Fedora.
+# ------------------------------------------------------------------------------
+# 3. Dependencies & Build Artifacts
+# ------------------------------------------------------------------------------
+# Do not copy local node_modules; prevents architecture mismatches (Host OS vs. Alpine).
 node_modules
-
-# NestJS build artifacts
+# Do not copy local build output; we build from scratch inside Docker.
 dist
 
-# Testing & Coverage
-# We don't need test coverage reports or e2e test sources in the production image.
-coverage
-test
-
-# Local environment variables and secrets
-# Never add these to your image!
+# ------------------------------------------------------------------------------
+# 4. Environment Variables (SECURITY)
+# ------------------------------------------------------------------------------
+# Never embed secrets in the image! Env files are injected at runtime.
 .env
 .env.*
 !.env.example
+
+# ------------------------------------------------------------------------------
+# 5. Tests & Coverage
+# ------------------------------------------------------------------------------
+coverage
+test
+# No need to copy unit test files within src.
+# We don't need test code in the production image.
+**/*.spec.ts
+**/*.test.ts
+
+# ------------------------------------------------------------------------------
+# 6. Tooling & Configs (Dev-Only)
+# ------------------------------------------------------------------------------
+# These files are only needed during development (VSCode, Linter, etc.).
+# The NestJS build process does not require them (EXCEPT tsconfig.json and nest-cli.json).
+.vscode
+.idea
+.lintstagedrc
+eslint.config.mjs
+.prettierrc
+.prettierignore
+
+# ------------------------------------------------------------------------------
+# 7. Documentation & Logs
+# ------------------------------------------------------------------------------
+# Documentation is not needed in the production image.
+README.md
+LICENSE
+CHANGELOG.md
 
 # Logs
 npm-debug.log*
@@ -33,14 +66,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# IDE / Editor configuration
-.vscode
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
-# OS-specific files
+# ------------------------------------------------------------------------------
+# 8. OS Specific
+# ------------------------------------------------------------------------------
 .DS_Store
 Thumbs.db

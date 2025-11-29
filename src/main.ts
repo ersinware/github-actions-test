@@ -5,6 +5,8 @@ import { AppModule } from './app.module';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -12,10 +14,6 @@ async function bootstrap(): Promise<void> {
       transform: true,
     }),
   );
-
-  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
-
-  // app.setGlobalPrefix('api');
 
   await app.listen(3000);
 }

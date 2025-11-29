@@ -1,4 +1,4 @@
-name: Build, Scan & Push to ECR
+name: Build, scan & push to ECR
 on:
   workflow_call:
     inputs:
@@ -29,19 +29,19 @@ permissions:
 
 jobs:
   build-scan-push:
-    name: Build, Scan & Push to ECR
+    name: Build, scan & push to ECR
     runs-on: ubuntu-24.04
     outputs:
       image_tag: ${{ steps.set-image-tag.outputs.tag }}
       
     steps:
       - name: Check out code
-        uses: actions/checkout@<COMMIT_SHA>
+        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@<COMMIT_SHA>
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@<COMMIT_SHA>
         with:
           role-to-assume: ${{ inputs.aws-role-to-assume }}
@@ -60,7 +60,7 @@ jobs:
         id: set-image-tag
         run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Build and Scan Image
+      - name: Build and scan Image
         id: build-scan
         run: |
           docker build \

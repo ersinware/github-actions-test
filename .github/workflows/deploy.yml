@@ -42,7 +42,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
 
-  #     - name: Configure AWS Credentials
+  #     - name: Configure AWS credentials
   #       uses: aws-actions/configure-aws-credentials@<COMMIT_SHA>
   #       with:
   #         role-to-assume: ${{ inputs.aws-role-to-assume }}

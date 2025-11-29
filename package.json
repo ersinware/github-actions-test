@@ -15,7 +15,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
-    "lint": "eslint \"{src,apps,libs,test,scripts}/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test,scripts}/**/*.ts\" && tsc --noEmit",
     "lint:contract": "spectral lint dist/swagger-v2.json --ruleset .spectral.yml",
     "test": "jest",
     "test:watch": "jest --watch",

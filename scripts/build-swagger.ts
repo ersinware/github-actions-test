@@ -18,7 +18,6 @@ function generateDocument(app: INestApplication, version: string) {
   };
 
   const versionSpecificModules = VERSION_MODULE_MAP[version] || [];
-
   const allModules = [...SHARED_MODULES, ...versionSpecificModules];
 
   const builder = new DocumentBuilder()

@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatsControllerV2 } from './cats.controller';
 import { CatsService } from './cats.service';
-import { CreateCatDto } from './dto/create-cat.dto';
-import { Cat } from './interface/cat.interface';
+import { CatDto } from './dto/cat.dto';
 import { Gender } from './enums/gender.enum';
 import { FindOneCatDto } from './dto/find-one-cat.dto';
 
@@ -37,7 +36,7 @@ describe('CatsControllerV2', () => {
 
   describe('create', () => {
     it('should create a new cat', () => {
-      const createCatDto: CreateCatDto = {
+      const createCatDto: CatDto = {
         name: 'Pamuk',
         age: 1,
         breed: 'Van',
@@ -56,7 +55,7 @@ describe('CatsControllerV2', () => {
 
   describe('findAll', () => {
     it('should return an array of cats', () => {
-      const result: Cat[] = [{ name: 'Duman', age: 3, breed: 'British', gender: Gender.Male }];
+      const result: CatDto[] = [{ name: 'Duman', age: 3, breed: 'British', gender: Gender.Male }];
 
       const findAllSpy = jest.spyOn(service, 'findAll').mockImplementation(() => result);
 
@@ -67,7 +66,7 @@ describe('CatsControllerV2', () => {
 
   describe('findOne', () => {
     it('should return a single cat', () => {
-      const result: Cat = {
+      const result: CatDto = {
         name: 'Duman',
         age: 3,
         breed: 'British',

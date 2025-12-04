@@ -10,10 +10,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
-import { CreateCatDto } from './dto/create-cat.dto';
+import { CatDto } from './dto/cat.dto';
 import { FindOneCatDto } from './dto/find-one-cat.dto';
 import { GetCatsQueryDto } from './dto/get-cats-query.dto';
-import { Cat } from './interface/cat.interface';
 
 @ApiTags('cats')
 @Controller({
@@ -30,12 +29,12 @@ export class CatsControllerV2 {
   })
   @ApiBody({
     description: 'Details of the cat to be created',
-    type: CreateCatDto,
+    type: CatDto,
   })
   @ApiCreatedResponse({ description: 'Successfully created a cat.' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
-  create(@Body() dto: CreateCatDto): string {
+  create(@Body() dto: CatDto): string {
     this.catsService.create(dto);
     return 'This action adds a new cat';
   }
@@ -45,10 +44,10 @@ export class CatsControllerV2 {
     summary: 'Retrieve all cats',
     description: 'Fetches and returns a list of all cats stored in the system.',
   })
-  @ApiOkResponse({ description: 'Successfully retrieved list of cats.', type: [CreateCatDto] })
+  @ApiOkResponse({ description: 'Successfully retrieved list of cats.', type: [CatDto] })
   @ApiBadRequestResponse({ description: `Invalid query parameter (e.g. non-numeric 'limit').` })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
-  findAll(@Query() query: GetCatsQueryDto): Cat[] {
+  findAll(@Query() query: GetCatsQueryDto): CatDto[] {
     return this.catsService.findAll(query.limit);
   }
 
@@ -57,11 +56,11 @@ export class CatsControllerV2 {
     summary: 'Get a specific cat',
     description: 'Retrieves details of a specific cat by its name.',
   })
-  @ApiOkResponse({ description: 'Successfully retrieved cat.', type: CreateCatDto })
+  @ApiOkResponse({ description: 'Successfully retrieved cat.', type: CatDto })
   @ApiBadRequestResponse({ description: `'name' must be longer than or equal to 2 characters.` })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiNotFoundResponse({ description: 'Cat not found.' })
-  findOne(@Param() params: FindOneCatDto): CreateCatDto {
+  findOne(@Param() params: FindOneCatDto): CatDto {
     return this.catsService.findOne(params.name);
   }
 }

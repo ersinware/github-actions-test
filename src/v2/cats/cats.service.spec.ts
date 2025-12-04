@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatsService } from './cats.service';
-import { CreateCatDto } from './dto/create-cat.dto';
+import { CatDto } from './dto/cat.dto';
 import { Gender } from './enums/gender.enum';
 
 describe('CatsService', () => {
@@ -20,7 +20,7 @@ describe('CatsService', () => {
 
   describe('create', () => {
     it('should add a cat to the array', () => {
-      const createCatDto: CreateCatDto = {
+      const createCatDto: CatDto = {
         name: 'TestKedisiV2',
         age: 2,
         breed: 'Test',

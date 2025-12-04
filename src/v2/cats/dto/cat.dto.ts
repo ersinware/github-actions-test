@@ -1,7 +1,7 @@
 import { IsEnum, IsInt, IsNotEmpty, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { Gender } from '../enums/gender.enum';
 
-export class CreateCatDto {
+export class CatDto {
   /**
    * The name of the cat
    * @example Mittens

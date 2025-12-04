@@ -1,3 +1,10 @@
+npx audit-ci --high
+if [ $? -ne 0 ]; then
+    echo "Critical or High severity vulnerability found!"
+    echo "Please update the package or run 'npm audit fix'."
+    exit 1
+fi
+
 npm run build:ci 
 npm run lint:contract 
 npm run test

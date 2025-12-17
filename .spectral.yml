@@ -13,11 +13,11 @@ rules:
   path-keys-no-trailing-slash: error
   typed-enum: error
   oas3-api-servers: error
-  
+
   # ---------------------------------------------------------------------------
   # CUSTOM STRICT RULES - Full Strict Mode
   # ---------------------------------------------------------------------------
-  
+
   # RULE: Every operation must have a summary
   operation-summary:
     description: Operation must have a concise summary.

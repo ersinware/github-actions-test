@@ -13,7 +13,7 @@ export default tseslint.config(
     // We ignore the config file itself and the build output directory ('dist').
     ignores: ['eslint.config.mjs', 'dist/**'],
   },
-  
+
   // Base JavaScript Rules:
   // Loads standard recommended rules for JavaScript (catches common logic errors).
   eslint.configs.recommended,
@@ -33,9 +33,9 @@ export default tseslint.config(
       // Define global variables so ESLint doesn't flag them as "undefined".
       globals: {
         // Adds Node.js globals (e.g., process, __dirname, exports)
-        ...globals.node, 
+        ...globals.node,
         // Adds Jest globals for testing (e.g., describe, it, expect)
-        ...globals.jest, 
+        ...globals.jest,
       },
       parserOptions: {
         // Enables the new, faster service for type-aware linting.
@@ -46,7 +46,7 @@ export default tseslint.config(
       },
     },
   },
-  
+
   {
     rules: {
       // Custom Rule Overrides
@@ -65,7 +65,7 @@ export default tseslint.config(
       // Prettier Rule:
       // Reports Prettier formatting issues as ESLint 'errors'.
       // 'endOfLine: "auto"' prevents errors due to Windows (CRLF) vs Mac/Linux (LF) differences.
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
 );

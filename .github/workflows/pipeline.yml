@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read 
+  contents: read
 
 jobs:
   validate:
@@ -23,9 +23,9 @@ jobs:
   # build:
   #   name: Build, scan & push to ECR
   #   needs: validate
-    
+
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
   #   uses: ./.github/workflows/build.yml
   #   with:
   #     aws-region: ${{ env.AWS_REGION }}
@@ -39,12 +39,12 @@ jobs:
   deploy-docs:
     name: Deploy documentations
     needs: validate
-    
+
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'development')
 
     permissions:
-      contents: write 
-      
+      contents: write
+
     uses: ./.github/workflows/deploy-docs.yml
     secrets:
       POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
@@ -56,9 +56,9 @@ jobs:
   # deploy:
   #   name: Deploy to Fargate
   #   needs: build
-    
+
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
   #   uses: ./.github/workflows/deploy.yml
   #   with:
   #     aws-region: ${{ env.AWS_REGION }}

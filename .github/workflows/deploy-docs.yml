@@ -42,7 +42,7 @@ jobs:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
         run: |
           BRANCH_NAME="${{ github.ref_name }}"
-          
+
           if [ "$BRANCH_NAME" == "main" ]; then
             ID_V1="${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V1 }}"
             ID_V2="${{ secrets.POSTMAN_COLLECTION_ID_MAIN_V2 }}"
@@ -81,4 +81,4 @@ jobs:
           keep_files: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: "Docs: Update ${{ github.ref_name }} documentation"
+          commit_message: 'Docs: Update ${{ github.ref_name }} documentation'

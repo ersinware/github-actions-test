@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "check:shadow-api": "if grep -rE --exclude-dir=node_modules --exclude-dir=dist \"(@ApiExcludeEndpoint\\(true\\)|@Controller\\('_dev'\\))\" .; then echo \"Shadow API found!\"; exit 1; fi",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
+    "format": "prettier ./ --write",
     "lint": "eslint \"{src,apps,libs,test,scripts}/**/*.ts\" && tsc --noEmit",
     "start:prod": "node dist/src/main",
     "lint:contract": "spectral lint dist/swagger-v2.json --ruleset .spectral.yml",

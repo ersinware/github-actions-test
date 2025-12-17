@@ -11,7 +11,7 @@ services:
     ports:
       # [IMPROVEMENT] We made port 3001!
       # Why? If you have 'npm run start:dev' or dev container (3000) open in the background, you don't have to close the other one to run this test.
-      - "127.0.0.1:3001:3000"
+      - '127.0.0.1:3001:3000'
 
     environment:
       - NODE_ENV=production

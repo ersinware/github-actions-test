@@ -33,6 +33,7 @@ export class CatsController {
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   create(@Body() dto: CatDto): string {
     this.catsService.create(dto);
+
     return 'This action adds a new cat';
   }
 

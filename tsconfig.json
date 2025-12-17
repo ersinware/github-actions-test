@@ -9,13 +9,13 @@
     // Node.js rules, including support for the "exports" field in package.json.
     "moduleResolution": "nodenext",
 
-    // The version of JavaScript to output. ES2023 includes recent features like 
+    // The version of JavaScript to output. ES2023 includes recent features like
     // array methods (toReversed, toSorted) and is fully supported by modern Node.js versions.
     "target": "ES2023",
-    
+
     // Forces TypeScript to consult the "exports" field in node_modules' package.json files.
     // This is critical for modern libraries that expose different entry points for ESM vs CommonJS.
-    "resolvePackageJsonExports": true, 
+    "resolvePackageJsonExports": true,
 
     // Ensures that each file can be safely transpiled without relying on other files.
     // This is required for tools like 'ts-jest' (tests) and 'swc' (fast compilers) to work correctly.
@@ -31,6 +31,10 @@
     // The directory where the compiled JavaScript files will be placed.
     "outDir": "./dist",
 
+    // Generates corresponding '.d.ts' file for each '.js' file.
+    // Essential for publishing libraries or sharing code, allowing consumers to see type definitions.
+    "declaration": true,
+
     // Generates .map files that link the compiled JS back to the original TS source.
     // Essential for debugging breakpoints in your IDE.
     "sourceMap": true,
@@ -45,10 +49,10 @@
     // Skips type checking of declaration files (.d.ts) inside node_modules.
     // Drastically improves build performance without affecting your own code's safety.
     "skipLibCheck": true,
-    
+
     // Disallows inconsistently-cased references to the same file.
     // Prevents "File not found" errors when moving between Windows (case-insensitive) and Linux (case-sensitive).
-    "forceConsistentCasingInFileNames": true, 
+    "forceConsistentCasingInFileNames": true,
 
     // NestJS Framework Requirements
     // Emits design-type metadata for decorators.
@@ -70,6 +74,10 @@
     // Enable all strict type-checking options. The "master switch" for type safety.
     "strict": true,
 
+    // Strictly checks that the arguments for '.bind', '.call', and '.apply' methods match the original function.
+    // Prevents unsafe usage of these methods by ensuring argument types are correct.
+    "strictBindCallApply": true,
+
     // Raise error on expressions and declarations with an implied 'any' type.
     // Forces you to define types, preventing "magic" variables.
     "noImplicitAny": true,
@@ -77,7 +85,7 @@
     // In strict null checking mode, 'null' and 'undefined' are not in the domain of every type.
     // Prevents "Cannot read property of undefined" runtime errors.
     "strictNullChecks": true,
-    
+
     // Reports an error when a local variable is declared but never used.
     // Keeps your code clean and free of dead logic.
     "noUnusedLocals": true,
@@ -131,7 +139,7 @@
   },
   // Specifies which folders should be included in the compilation process.
   "include": ["src", "test", "scripts"],
-  
+
   // Specifies which folders should be ignored during compilation.
   "exclude": ["node_modules", "dist"]
 }

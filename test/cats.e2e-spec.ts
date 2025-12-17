@@ -97,9 +97,13 @@ describe('CatsController (e2e)', () => {
         const body = res.body as ValidationResponse;
         const messages = body.message;
 
-        expect(messages).toContain('age must not be less than 0');
-        expect(messages).toContain('age must be an integer number');
         expect(messages).toContain('property extraField should not exist');
+        expect(messages).toContain('Age must be at most 30');
+        expect(messages).toContain('Age must be at least 0');
+        expect(messages).toContain('Age must be an integer');
+        expect(messages).toContain('Age should not be empty');
+        expect(messages).toContain('Gender must be either Male or Female');
+        expect(messages).toContain('Gender should not be empty');
       });
   });
 

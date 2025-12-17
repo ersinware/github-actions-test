@@ -43,7 +43,6 @@ describe('CatsController', () => {
         gender: Gender.Male,
       };
 
-      // Fix: Spy on the method and verify the SPY, not the method reference
       const createSpy = jest.spyOn(service, 'create').mockImplementation(() => undefined);
 
       const result = controller.create(createCatDto);

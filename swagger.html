@@ -1,11 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>API Documentation</title>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
     <style>
-      body { margin: 0; padding: 0; }
+      body {
+        margin: 0;
+        padding: 0;
+      }
     </style>
   </head>
   <body>
@@ -16,19 +19,16 @@
       window.onload = () => {
         window.ui = SwaggerUIBundle({
           urls: [
-            { url: "./swagger-main-v1.json", name: "Main Branch - V1" },
-            { url: "./swagger-main-v2.json", name: "Main Branch - V2" },
-            { url: "./swagger-development-v1.json", name: "Development Branch - V1" },
-            { url: "./swagger-development-v2.json", name: "Development Branch - V2" }
+            { url: './swagger-main-v1.json', name: 'Main Branch - V1' },
+            { url: './swagger-main-v2.json', name: 'Main Branch - V2' },
+            { url: './swagger-development-v1.json', name: 'Development Branch - V1' },
+            { url: './swagger-development-v2.json', name: 'Development Branch - V2' },
           ],
-          "urls.primaryName": "Main Branch - V1",
+          'urls.primaryName': 'Main Branch - V1',
           dom_id: '#swagger-ui',
           deepLinking: true,
-          presets: [
-            SwaggerUIBundle.presets.apis,
-            SwaggerUIStandalonePreset
-          ],
-          layout: "StandaloneLayout"
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          layout: 'StandaloneLayout',
         });
       };
     </script>

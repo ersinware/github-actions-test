@@ -1,12 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>API Documentation (Redoc)</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet" />
     <style>
-      body { margin: 0; padding: 0; }
+      body {
+        margin: 0;
+        padding: 0;
+      }
       /* Versiyon Seçici Stili */
       .version-selector {
         position: fixed;
@@ -18,7 +21,7 @@
         border: 1px solid #ddd;
         background: white;
         font-family: 'Montserrat', sans-serif;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
@@ -36,10 +39,14 @@
     <script>
       function loadSpec(url) {
         // Redoc'u başlat/güncelle
-        Redoc.init(url, {
-          scrollYOffset: 50,
-          hideDownloadButton: true
-        }, document.getElementById('redoc-container'));
+        Redoc.init(
+          url,
+          {
+            scrollYOffset: 50,
+            hideDownloadButton: true,
+          },
+          document.getElementById('redoc-container'),
+        );
       }
 
       // Sayfa ilk açıldığında varsayılan spec'i yükle

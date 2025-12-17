@@ -8,8 +8,8 @@ export class GetCatsQueryDto {
    */
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(100)
+  @IsInt({ message: 'Limit must be an integer' })
+  @Min(1, { message: 'Limit must be at least 1' })
+  @Max(100, { message: 'Limit must be at most 100' })
   readonly limit?: number;
 }

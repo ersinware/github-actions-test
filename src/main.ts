@@ -15,6 +15,11 @@ async function bootstrap(): Promise<void> {
   //   }),
   // );
 
+  // Varsayılan olarak NestJS (performans için) kapanma sinyallerini dinlemez
+  // BU SATIR ÇOK ÖNEMLİ!
+  // SIGTERM veya SIGINT geldiğinde NestJS'in kapanma sürecini tetikler.
+  app.enableShutdownHooks();
+
   await app.listen(3000);
 }
 

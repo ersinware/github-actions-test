@@ -5,9 +5,9 @@ export class FindOneCatDto {
    * The name of the cat to retrieve
    * @example Garfield
    */
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(2)
-  @MaxLength(20)
+  @IsNotEmpty({ message: 'Name should not be empty' })
+  @IsString({ message: 'Name must be a string' })
+  @MinLength(2, { message: 'Name must be at least 2 characters long' })
+  @MaxLength(20, { message: 'Name must be at most 20 characters long' })
   readonly name!: string;
 }

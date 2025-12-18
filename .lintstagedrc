@@ -1,4 +1,4 @@
 {
-  "**/*.ts": ["eslint --fix", "bash -c 'tsc --noEmit'"],
-  "**/*": ["prettier --write --ignore-unknown"]
+  "**/*": ["prettier --write --ignore-unknown"],
+  "**/*.ts": ["eslint --fix", "bash -c 'tsc --noEmit'"]
 }

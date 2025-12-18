@@ -1,9 +1,10 @@
 import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
@@ -20,7 +21,7 @@ async function bootstrap(): Promise<void> {
   // SIGTERM veya SIGINT geldiğinde NestJS'in kapanma sürecini tetikler.
   app.enableShutdownHooks();
 
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 
 bootstrap().catch((err) => {

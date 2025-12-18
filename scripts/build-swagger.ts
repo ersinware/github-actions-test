@@ -1,5 +1,6 @@
 import { INestApplication, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 import { AppModule } from 'src/app.module';
@@ -61,8 +62,7 @@ function generateDocument(app: INestApplication, version: string) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { logger: false });
-
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: false });
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
   for (const version of ACTIVE_VERSIONS) {

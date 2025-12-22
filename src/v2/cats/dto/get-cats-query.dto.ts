@@ -1,6 +1,8 @@
+import { ApiSchema } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
+@ApiSchema({ name: 'GetCatsQuery', description: 'Description of the GetCatsQuery schema' })
 export class GetCatsQueryDto {
   /**
    * Maximum number of cats to return

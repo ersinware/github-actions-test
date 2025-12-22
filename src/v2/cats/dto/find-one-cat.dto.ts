@@ -1,5 +1,7 @@
+import { ApiSchema } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
+@ApiSchema({ name: 'Name', description: 'Description of the Name schema' })
 export class FindOneCatDto {
   /**
    * The name of the cat to retrieve

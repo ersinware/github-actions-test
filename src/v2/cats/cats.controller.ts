@@ -4,6 +4,7 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
+  ApiHeader,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -15,10 +16,8 @@ import { FindOneCatDto } from './dto/find-one-cat.dto';
 import { GetCatsQueryDto } from './dto/get-cats-query.dto';
 
 @ApiTags('cats')
-@Controller({
-  path: 'cats',
-  version: '2',
-})
+@Controller({ path: 'cats', version: '2' })
+@ApiHeader({ name: 'X-MyHeader', description: 'Custom header' })
 export class CatsControllerV2 {
   constructor(private readonly catsService: CatsService) {}
 

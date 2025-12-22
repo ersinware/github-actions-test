@@ -5,23 +5,14 @@
       "post": {
         "description": "Creates a new cat entry in the system with the provided details.",
         "operationId": "createV1",
-        "parameters": [
-          {
-            "name": "X-MyHeader",
-            "in": "header",
-            "description": "Custom header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "required": true,
           "description": "Details of the cat to be created",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCatRequest"
+                "$ref": "#/components/schemas/CatDto"
               }
             }
           }
@@ -47,14 +38,6 @@
         "operationId": "findAllV1",
         "parameters": [
           {
-            "name": "X-MyHeader",
-            "in": "header",
-            "description": "Custom header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "limit",
             "required": false,
             "in": "query",
@@ -75,7 +58,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CreateCatRequest"
+                    "$ref": "#/components/schemas/CatDto"
                   }
                 }
               }
@@ -100,14 +83,6 @@
         "operationId": "findOneV1",
         "parameters": [
           {
-            "name": "X-MyHeader",
-            "in": "header",
-            "description": "Custom header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "name",
             "required": true,
             "in": "path",
@@ -126,7 +101,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateCatRequest"
+                  "$ref": "#/components/schemas/CatDto"
                 }
               }
             }
@@ -196,7 +171,7 @@
   ],
   "components": {
     "schemas": {
-      "CreateCatRequest": {
+      "CatDto": {
         "type": "object",
         "properties": {
           "name": {
@@ -230,7 +205,6 @@
             "type": "string"
           }
         },
-        "description": "Description of the CreateCatDto schema",
         "required": [
           "name",
           "age",

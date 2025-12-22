@@ -1,12 +1,11 @@
 import { Module, ValidationPipe } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
+import { HealthModule } from './health/health.module';
 import { CatsModule } from './v1/cats/cats.module';
 import { CatsModuleV2 } from './v2/cats/cats.module';
-import { HealthModule } from './health/health.module';
-import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [CatsModule, CatsModuleV2, HealthModule],
-  controllers: [],
   providers: [
     {
       // NestJS'e "Bu sağlayıcıyı tüm uygulama için Global Pipe olarak kullan" diyoruz.

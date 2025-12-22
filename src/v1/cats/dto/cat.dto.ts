@@ -1,6 +1,8 @@
 import { IsEnum, IsInt, IsNotEmpty, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { Gender } from '../enums/gender.enum';
+import { ApiSchema } from '@nestjs/swagger';
 
+@ApiSchema({ name: 'CreateCatRequest', description: 'Description of the CreateCatDto schema' })
 export class CatDto {
   /**
    * The name of the cat
